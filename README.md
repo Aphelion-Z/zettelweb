@@ -12,7 +12,6 @@ Die Umsetzung erfolgt durch Anpassung des Frontends (Drag & Drop) und der Datenb
 4.	**Intuitive Bedienung:** Nutzer sollen Zettel per Drag & Drop verschieben, verbinden und organisieren können, die Bedienung soll selbsterklärend und benutzerfreundlich sein.
 5.	**Benutzerfreundlichkeit & Übersichtlichkeit:** Die Oberfläche wird so gestaltet, dass auch bei vielen Zetteln keine Informationsüberflutung entsteht und alle Funktionen leicht zugänglich sind.
 
-
 **Personal- und Zeitaufwand:** 7 Personen und das Semester (125 Stunden)
 
 **Meilensteine:**
@@ -25,9 +24,9 @@ Die Umsetzung erfolgt durch Anpassung des Frontends (Drag & Drop) und der Datenb
 7.	Projektabschluss & Präsentation
 
 **Risikoreflexion:**
-•	Missverständnisse, doppelte Arbeit oder fehlende Abstimmung bei Änderungen
-•	Datenverlust und zusätzlicher Arbeitsaufwand zur Wiederherstellung
-•	Verzögerung des Projektfortschritts, unausgewogene Arbeitsverteilung
+1. Missverständnisse, doppelte Arbeit oder fehlende Abstimmung bei Änderungen
+2. Datenverlust und zusätzlicher Arbeitsaufwand zur Wiederherstellung
+3. Verzögerung des Projektfortschritts, unausgewogene Arbeitsverteilung
 
 **Unterschriften:**
 Sprachmann, Heinrich, sprachmann, 220897
