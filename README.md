@@ -5,7 +5,7 @@
 **Kurzbeschreibung:** Das Entwicklungsteam in Projekt „ZettelWeb“ erweitert das Zettelkasten-System um eine neue Ansicht mit frei verschiebbaren Zetteln, deren Positionen in der Datenbank gespeichert werden. Das Projekt startet am 08.10.2025, mit geplanter Fertigstellung bis Ende des Semesters.
 Die Umsetzung erfolgt durch Anpassung des Frontends (Drag & Drop) und der Datenbankstruktur, unter Nutzung vorhandener Entwicklungswerkzeuge (Zettelstore, SQLite, etc.). Ziel ist es, die Übersichtlichkeit und Benutzerfreundlichkeit des Zettelkastens zu verbessern.
 
-**Ziele: **
+**Ziele:**
 •	Gruppierung: Thematisch oder inhaltlich verwandte Zettel sollen manuell in Clustern zusammengefasst werden, um die Übersicht über zusammenhängende Informationen zu erhöhen.
 •	Visualisierung: Die neue Ansicht soll die Zettel in einem frei verschiebbaren Netzwerk darstellen, sodass Zusammenhänge zwischen Zetteln visuell erkennbar sind.
 •	Positionsspeicherung: Jede Verschiebung eines Zettels wird in der Datenbank gespeichert, sodass die individuelle Anordnung auch nach einem Neustart des Systems erhalten bleibt.
@@ -14,7 +14,7 @@ Die Umsetzung erfolgt durch Anpassung des Frontends (Drag & Drop) und der Datenb
 
 **Personal- und Zeitaufwand:** 7 Personen und das Semester (125 Stunden)
 
-**Meilensteine: **
+**Meilensteine:**
 1.	Anforderungsanalyse & Konzeption
 2.	Architektur- und UI-Design
 3.	Grundfunktionalität des Zettel-Netzes
