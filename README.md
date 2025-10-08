@@ -6,11 +6,12 @@
 Die Umsetzung erfolgt durch Anpassung des Frontends (Drag & Drop) und der Datenbankstruktur, unter Nutzung vorhandener Entwicklungswerkzeuge (Zettelstore, SQLite, etc.). Ziel ist es, die Übersichtlichkeit und Benutzerfreundlichkeit des Zettelkastens zu verbessern.
 
 **Ziele:**
-•	Gruppierung: Thematisch oder inhaltlich verwandte Zettel sollen manuell in Clustern zusammengefasst werden, um die Übersicht über zusammenhängende Informationen zu erhöhen.
-•	Visualisierung: Die neue Ansicht soll die Zettel in einem frei verschiebbaren Netzwerk darstellen, sodass Zusammenhänge zwischen Zetteln visuell erkennbar sind.
-•	Positionsspeicherung: Jede Verschiebung eines Zettels wird in der Datenbank gespeichert, sodass die individuelle Anordnung auch nach einem Neustart des Systems erhalten bleibt.
-•	Intuitive Bedienung: Nutzer sollen Zettel per Drag & Drop verschieben, verbinden und organisieren können, die Bedienung soll selbsterklärend und benutzerfreundlich sein.
-•	Benutzerfreundlichkeit & Übersichtlichkeit: Die Oberfläche wird so gestaltet, dass auch bei vielen Zetteln keine Informationsüberflutung entsteht und alle Funktionen leicht zugänglich sind.
+1.	**Gruppierung:** Thematisch oder inhaltlich verwandte Zettel sollen manuell in Clustern zusammengefasst werden, um die Übersicht über zusammenhängende Informationen zu erhöhen.
+2.	**Visualisierung:** Die neue Ansicht soll die Zettel in einem frei verschiebbaren Netzwerk darstellen, sodass Zusammenhänge zwischen Zetteln visuell erkennbar sind.
+3.	**Positionsspeicherung:** Jede Verschiebung eines Zettels wird in der Datenbank gespeichert, sodass die individuelle Anordnung auch nach einem Neustart des Systems erhalten bleibt.
+4.	**Intuitive Bedienung:** Nutzer sollen Zettel per Drag & Drop verschieben, verbinden und organisieren können, die Bedienung soll selbsterklärend und benutzerfreundlich sein.
+5.	**Benutzerfreundlichkeit & Übersichtlichkeit:** Die Oberfläche wird so gestaltet, dass auch bei vielen Zetteln keine Informationsüberflutung entsteht und alle Funktionen leicht zugänglich sind.
+
 
 **Personal- und Zeitaufwand:** 7 Personen und das Semester (125 Stunden)
 
