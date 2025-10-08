@@ -1,6 +1,7 @@
-#Projektauftrag
+**Projektauftrag**
 
 **Projektname:** „ZettelWeb“ Gruppe 7
+
 **Kurzbeschreibung:** Das Entwicklungsteam in Projekt „ZettelWeb“ erweitert das Zettelkasten-System um eine neue Ansicht mit frei verschiebbaren Zetteln, deren Positionen in der Datenbank gespeichert werden. Das Projekt startet am 08.10.2025, mit geplanter Fertigstellung bis Ende des Semesters.
 Die Umsetzung erfolgt durch Anpassung des Frontends (Drag & Drop) und der Datenbankstruktur, unter Nutzung vorhandener Entwicklungswerkzeuge (Zettelstore, SQLite, etc.). Ziel ist es, die Übersichtlichkeit und Benutzerfreundlichkeit des Zettelkastens zu verbessern.
 
