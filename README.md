@@ -9,7 +9,7 @@ Die Umsetzung erfolgt durch Anpassung des Frontends (Drag & Drop) und der Datenb
 1.	**Gruppierung:** Thematisch oder inhaltlich verwandte Zettel sollen manuell in Clustern zusammengefasst werden, um die Übersicht über zusammenhängende Informationen zu erhöhen.
 2.	**Visualisierung:** Die neue Ansicht soll die Zettel in einem frei verschiebbaren Netzwerk darstellen, sodass Zusammenhänge zwischen Zetteln visuell erkennbar sind.
 3.	**Positionsspeicherung:** Jede Verschiebung eines Zettels wird in der Datenbank gespeichert, sodass die individuelle Anordnung auch nach einem Neustart des Systems erhalten bleibt.
-4.	Speicherung der Eigenschaften: Physikalische Eigenschaften der Zettel wie deren Verhalten beim Verschieben soll in der Datenbank gespeichert werden.
+4.	**Speicherung der Eigenschaften:** Physikalische Eigenschaften der Zettel wie deren Verhalten beim Verschieben soll in der Datenbank gespeichert werden.
 5.	**Intuitive Bedienung:** Nutzer sollen Zettel per Drag & Drop verschieben, verbinden und organisieren können, die Bedienung soll selbsterklärend und benutzerfreundlich sein.
 6.	**Benutzerfreundlichkeit & Übersichtlichkeit:** Die Oberfläche wird so gestaltet, dass auch bei vielen Zetteln keine Informationsüberflutung entsteht und alle Funktionen leicht zugänglich sind.
 
