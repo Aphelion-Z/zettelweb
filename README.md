@@ -29,10 +29,11 @@ Die Umsetzung erfolgt durch Anpassung des Frontends (Drag & Drop) und der Datenb
 3. Verzögerung des Projektfortschritts, unausgewogene Arbeitsverteilung
 
 **Unterschriften:**
-Sprachmann, Heinrich, sprachmann, 220897
-Nowizki, Michael, mnowizki, 222938
-Schockel, Andrej, aschockel, 220447
-Kundoch, Michael, mkundoch, 223247
-Grossu, Artur, agrossu, 220457
-Sämann, Louis, lsaemann, 223519, 
-Ngo Thi, Bao Tram, bngothi, 223165
+1. Sprachmann, Heinrich, sprachmann, 220897
+2. Nowizki, Michael, mnowizki, 222938
+3. Schockel, Andrej, aschockel, 220447
+4. Kundoch, Michael, mkundoch, 223247
+5. Grossu, Artur, agrossu, 220457
+6. Sämann, Louis, lsaemann, 223519, 
+7. Ngo Thi, Bao Tram, bngothi, 223165
+
