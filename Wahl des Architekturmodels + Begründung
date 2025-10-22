@@ -9,4 +9,6 @@ Die Steuerungsebene(Controller) vermittelt zwischen Nutzer und System und verarb
 Die Anwendung soll Zettel aus dem Zettelstore abrufen und visuell als Cluster darstellen. Dabei soll eine klare Trennung zwischen
 Datenverarbeitung, Steuerung und Darstellung gewährleistet werden.
 MVC erfüllt die Anforderungen an lose Kopplung und Trennung von Verantwortlichkeiten besser, da Benutzerinteraktionen und Visualisierung
-unabhängig voneinander entwickelt und getestet werden können.
+unabhängig voneinander entwickelt und getestet werden können. Zudem verknüpft es unsere funktionalen und nicht-funktionale Anforderungen.
+Als alternative Architektur können wir SAO oder Pipes&Filters wählen, sie wurden aber verworfen, da der Schwerpunkt auf der Visualisierung
+liegt und nicht auf beispielsweise Datenströme wie Pipes&Filters.
