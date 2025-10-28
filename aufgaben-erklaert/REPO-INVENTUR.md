@@ -165,110 +165,108 @@ zettelweb-code/
 
 ---
 
-### ⚠️ Aufgabe 4: Strategischer Entwurf - TEILWEISE ERFÜLLT
+### ❌ Aufgabe 4: Strategischer Entwurf - NICHT BESTANDEN
 
-**Was wurde verlangt:**
-- Architektur zur inneren Struktur festlegen ✓
-- Mit Architekturbausteine (Patterns) ✓
-- UML-Diagramme zur Erläuterung ✓
-- Systemaufbau (Gesamtsystem mit Zettelstore) ✓
-- ADRs für Entwurfsentscheidungen ✓
-- Wiki-Dokumentation ✓
+**Professor-Bewertung:** **"Nicht bestanden"**
 
-**Was ihr habt:**
+**Wörtliches Feedback:**
+> "Schwer lesbarer Fließtext, ohne wirkliche Struktur. Im Unterricht hatte ich gesagt, dass eine Web-Anwendung auf Basis von HTTP/1 nie MVC sein kann. Bei den ADRs kann ich nicht erkennen, wie welche Alternative bei welchem Bewertungskriterium abgeschnitten hat. Ich kann weder nachvollziehen, wozu das Klassendiagramm dienen soll, noch wie der Zettelstore Daten an die Datenbank sendet, bzw diese aufruft. Wenn die Entscheidung zur Datenbank auf 'SQLite' lautet, warum wird noch 'Redis' erwähnt? Status: Nicht bestanden."
 
-**Architektur-Entscheidung:**
-- ✓ MVC (Model-View-Controller) gewählt
-- ✓ Begründung vorhanden ("Wahl des Architekturmodells + Begründung")
-- ✓ Alternativen erwähnt (SAO, Pipes&Filters)
+**Die 6 Hauptkritikpunkte:**
 
-**ADRs (Architecture Decision Records):**
-1. **ADR-01: Systemintegration**
-   - ✓ Struktur korrekt (Situation, Alternativen, Bewertung, Entscheidung, Konsequenzen)
-   - ✓ 2 Alternativen verglichen (Standalone vs. Zettelstore-Extension)
-   - ✓ Bewertungskriterien definiert
-   - ✓ Entscheidung: Standalone Web-App
-   - ✓ Konsequenzen benannt
+**❌ Kritik #1: MVC für Web-Apps ist FALSCH**
+- Ihr habt geschrieben: "webbasierte Client-Server-Anwendung mit MVC-Struktur"
+- **Professor hat im Unterricht gesagt:** "Web-App auf HTTP/1 kann NIE MVC sein!"
+- MVC = Desktop-Pattern (monolithisch, gleicher Prozess)
+- Web-App = Client-Server (verteilt, HTTP dazwischen)
+- **Fundamentaler Konzeptfehler!** 🔴
 
-2. **ADR-02: Datenbankwahl**
-   - ✓ Struktur korrekt
-   - ✓ 3 Alternativen (SQLite, MySQL, PostgreSQL)
-   - ✓ Bewertungskriterien (6 Stück)
-   - ✓ Entscheidung: SQLite
-   - ✓ Konsequenzen benannt
+**❌ Kritik #2: Unleserliche Dokumentation**
+- Riesige Fließtext-Blöcke ohne Struktur
+- Keine Listen, Überschriften, Absätze
+- Beispiel: "Wahl des Architekturmodells" = ein einziger Textblock
+- Schwer zu lesen, schwer zu scannen
 
-**Diagramme:**
-1. **Klassendiagramm (MVC)**
-   - ✓ Vorhanden (Screenshot)
-   - ✓ Model, View, Controller klar getrennt
-   - ✓ Klassen benannt (Zettel, Tag, ZettelCluster, ...)
-   - ✓ Beziehungen eingezeichnet
+**❌ Kritik #3: ADR-Bewertungen unklar**
+- Nur Text statt Bewertungsmatrix-Tabelle
+- Professor kann nicht sehen: "Welche Alternative ist bei Kriterium X besser?"
+- Keine Scores/Punkte
+- Nicht nachvollziehbar
 
-2. **Systemaufbau (Komponentendiagramm)**
-   - ✓ Vorhanden (Screenshot)
-   - ✓ Zeigt: Browser, NetzWeb Backend, Zettelstore, DB
-   - ✓ Kommunikation (HTTPS/JSON, REST)
+**❌ Kritik #4: Klassendiagramm ohne erkennbaren Zweck**
+- Diagramm wird einfach gezeigt (Screenshot)
+- Kein Kontext: "Wozu dient dieses Diagramm?"
+- Keine Legende: "Was bedeuten die Symbole?"
+- Dann folgt allgemeiner Text über MVC
 
-**Textuelle Beschreibung:**
-- ✓ Ausführliche Erklärung des MVC-Modells
-- ✓ Erklärung der Klassen und deren Verantwortlichkeiten
-- ✓ Datenfluss beschrieben
+**❌ Kritik #5: Architektur unklar (Zettelstore ↔ DB)**
+- Missverständnis in Dokumentation
+- Es klingt so als ob Zettelstore eure SQLite-DB verwaltet
+- **Wahrheit:** 2 GETRENNTE Datenspeicher!
+  - Zettelstore (extern, .zettel Dateien)
+  - Eure DB (lokal, nur Positionen)
+- Keine Verbindung zwischen beiden!
 
-**Was GUT ist:**
-- ADRs sehr gut strukturiert!
-- Bewertungskriterien vorhanden
-- Alternativen werden fair verglichen
-- Konsequenzen sind benannt (auch negative!)
-- Diagramme unterstützen Text
-- MVC-Wahl ist nachvollziehbar begründet
+**❌ Kritik #6: Inkonsistenzen (Redis-Erwähnung)**
+- Entscheidung in ADR-02: SQLite
+- Redis wird trotzdem irgendwo erwähnt
+- Verworfene Alternativen dürfen nicht mehr auftauchen!
+- Wirkt unprofessionell
 
-**Was FEHLT/verbesserbar:**
+**Was ihr hattet (formale Struktur war ok):**
 
 **ADRs:**
-- ⚠️ Nur 2 ADRs - es fehlen weitere Entscheidungen:
-  - Frontend-Technologie (HTML/CSS/JS, aber welches Framework?)
-  - Wie wird Drag & Drop umgesetzt? (Library?)
-  - Wie werden Verbindungslinien gezeichnet? (Canvas vs SVG?)
+- ✓ ADR-01: Systemintegration (Standalone vs. Extension)
+- ✓ ADR-02: Datenbankwahl (SQLite vs. MySQL vs. PostgreSQL)
+- ✓ Struktur vorhanden (Situation, Alternativen, Entscheidung, Konsequenzen)
 
-**Klassendiagramm:**
-- ⚠️ Screenshot schwer lesbar
-- ⚠️ Keine Attribute/Methoden bei Klassen sichtbar
-- ⚠️ Beziehungstypen unklar (Assoziation, Vererbung, ...)
+**Diagramme:**
+- ✓ Klassendiagramm (MVC)
+- ✓ Systemaufbau (Komponentendiagramm)
 
-**Systemaufbau:**
-- ⚠️ "NetzWeb Backend" - wird das wirklich gebaut? Oder nur Frontend?
-  - ADR-01 sagt "JavaScript im Browser" → dann kein Backend?
-  - **Widerspruch zwischen ADR-01 und Systemaufbau-Diagramm!**
+**Dokumentation:**
+- ✓ Wiki-Seiten vorhanden
+- ✓ Textuelle Beschreibungen
 
-**Architektur vs. Implementierung:**
-- ❓ Wie sieht die Ordnerstruktur aus? (src/, model/, view/, controller/?)
-- ❓ Welche Dateien gehören zu Model/View/Controller?
-- ❓ Wie wird die Architektur in Code umgesetzt?
+**ABER: Inhaltlich fundamental falsch + schlecht dokumentiert!**
 
-**Testbarkeit:**
-- ❌ Nicht erwähnt wie man die Architektur testen will
-- ❌ Keine Test-Strategie
+**Hauptproblem:**
+Der MVC-Fehler ist **fundamental** - Professor hat das im Unterricht explizit gesagt und das Team hat nicht zugehört oder es nicht verstanden.
 
-**Bewertung:** **70% erfüllt** ⚠️
+**Bewertung:** **0% (Nicht bestanden)** ❌
 
-**Verbesserungsvorschlag:** Siehe `04-Strategischer-Entwurf-ERKLAERT.md`
+**Was zu tun ist:**
+1. MVC-Terminologie komplett streichen ("Web-App mit MVC" ist FALSCH!)
+2. Korrekt: "Client-Server Architecture / 3-Tier"
+3. ADRs mit Bewertungstabellen ergänzen
+4. Dokumentation strukturieren (nicht Fließtext!)
+5. Diagramme mit Zweck/Kontext/Legende versehen
+6. Architektur klarstellen (2 getrennte DBs!)
+7. Inkonsistenzen bereinigen
+
+**Detaillierte Analyse:** Siehe `04-Strategischer-Entwurf-ERKLAERT.md`
 
 ---
 
 ## 📈 GESAMTBEWERTUNG
 
-| Aufgabe | Status | Prozent | Note (geschätzt) |
-|---------|--------|---------|------------------|
+| Aufgabe | Status | Prozent | Note (tatsächlich) |
+|---------|--------|---------|---------------------|
 | Aufgabe 1 | ✅ Erfüllt | 100% | 1.0 |
 | Aufgabe 2 | ⚠️ Teilweise | 75% | 2.3 |
 | Aufgabe 3 | ⚠️ Teilweise | 65% | 2.7 |
-| Aufgabe 4 | ⚠️ Teilweise | 70% | 2.5 |
-| **Gesamt** | **⚠️** | **~70%** | **~2.5** |
+| Aufgabe 4 | ❌ **NICHT BESTANDEN** | 0% | **5.0** |
+| **Gesamt** | **❌** | **~60%** | **~3.0** |
+
+**Professor-Feedback für Aufgabe 4:**
+Fundamentaler MVC-Fehler + unleserliche Dokumentation + unklare ADRs = **Nicht bestanden**
 
 **Interpretation:**
-- **Basis ist da!** Ihr habt alle Aufgaben bearbeitet
-- **Aber:** Vieles ist oberflächlich oder unklar
-- **Problem:** LLM-generiert ohne Verständnis?
+- **Aufgabe 1:** Perfekt! ✅
+- **Aufgabe 2-3:** Basis vorhanden, aber verbesserbar ⚠️
+- **Aufgabe 4:** Fundamental falsch - durchgefallen! ❌
+- **Hauptproblem:** MVC-Fehler (Professor hat das im Unterricht explizit gesagt!)
+- **Weiteres Problem:** KI-generierte Arbeit ohne echtes Verständnis
 
 ---
 
