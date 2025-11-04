@@ -33,13 +33,7 @@
 
 **Beschreibung:**
 
-Dies ist das **absolute Kernfeature** von ZettelWeb und der Hauptgrund, warum diese Anwendung existiert. Während Zettelstore Zettel als einfache, chronologische Liste darstellt, visualisiert ZettelWeb die gesamte Zettel-Sammlung als lebendigen, interaktiven Graphen mit physik-basiertem Layout.
-
-**Warum ist das wichtig?** Bei einer Zettelkasten-Methode mit 50, 100 oder mehr Zetteln verliert man in einer reinen Listen-Ansicht schnell die Übersicht über die Struktur des eigenen Wissens. Der force-directed Graph macht diese Struktur sofort sichtbar.
-
-**Wie funktioniert es technisch?** Das System verwendet ein physikalisches Simulations-Modell zur automatischen Positionierung: Zettel, die durch Links verbunden sind, ziehen sich gegenseitig an (Spring Force), während alle Zettel sich gegenseitig abstoßen (Repulsion Force). Das Resultat: Stark vernetzte Zettel landen automatisch zentral im Graph, Themen-Cluster gruppieren sich natürlich, isolierte Zettel driften an den Rand.
-
-**Was gehört NICHT dazu?** KEIN manuelles Grid/Tree-Layout, KEINE alternativen Layout-Algorithmen, KEINE 3D-Visualisierung.
+Das Kernfeature von ZettelWeb: Ein force-directed Graph visualisiert alle Zettel mit automatischer physik-basierter Positionierung (Anziehung zwischen verbundenen Zetteln, Abstoßung zwischen allen). Stark vernetzte Zettel landen zentral, Themen-Cluster gruppieren sich natürlich, isolierte Zettel driften an den Rand. Ohne dies wäre ZettelWeb nur eine Listen-Ansicht ohne erkennbare Wissensstruktur.
 
 **Akzeptanzkriterien:**
 - [ ] Alle Zettel aus Zettelstore als Knoten dargestellt
@@ -66,6 +60,10 @@ Dies ist das **absolute Kernfeature** von ZettelWeb und der Hauptgrund, warum di
 **User Story:**
 > Als Nutzer will ich Verbindungen zwischen Zetteln als Linien sehen, damit ich Verknüpfungen erkenne.
 
+**Beschreibung:**
+
+Verbindungen zwischen Zetteln werden als Linien visualisiert - die Kraft eines Zettelkastens liegt in der Vernetzung. Bei 200 Zetteln mit ~300 Linien müssen diese performant gerendert werden (Canvas, gerade Linien ohne Pfeile/Labels).
+
 **Akzeptanzkriterien:**
 - [ ] Jede Verbindung = Linie
 - [ ] Linien verbinden Zettel-Mittelpunkte/Ränder
@@ -88,6 +86,10 @@ Dies ist das **absolute Kernfeature** von ZettelWeb und der Hauptgrund, warum di
 
 **User Story:**
 > Als Nutzer will ich beim Öffnen automatisch den Graphen geladen bekommen, damit ich sofort explorieren kann.
+
+**Beschreibung:**
+
+Der komplette Startprozess: URL öffnen → API-Call → Positionen aus LocalStorage laden (falls vorhanden) → Graph rendern. Time-to-Interactive maximal 3 Sekunden, mit Loading-Indicator und Fehlertoleranz. Der erste Eindruck entscheidet über die Nutzerakzeptanz.
 
 **Akzeptanzkriterien:**
 - [ ] App startet automatisch (kein "Load"-Button)
@@ -115,6 +117,10 @@ Dies ist das **absolute Kernfeature** von ZettelWeb und der Hauptgrund, warum di
 **User Story:**
 > Als Nutzer will ich durch Klick auf einen Zettel dessen Inhalt sehen, damit ich Informationen lesen kann.
 
+**Beschreibung:**
+
+Click auf Zettel → API-Call → Modal/Sidebar zeigt Titel, Markdown-Inhalt, Metadaten, verknüpfte Zettel. Macht ZettelWeb zu einer echten Read-Only-Visualisierung (kein Bearbeiten, nur Ansicht).
+
 **Akzeptanzkriterien:**
 - [ ] Single-Click öffnet Detail-Ansicht
 - [ ] Detail zeigt: Titel, Inhalt, Metadaten, verknüpfte Zettel
@@ -138,6 +144,10 @@ Dies ist das **absolute Kernfeature** von ZettelWeb und der Hauptgrund, warum di
 
 **User Story:**
 > Als Nutzer will ich Zettel mit der Maus verschieben können, damit ich die Anordnung anpassen kann.
+
+**Beschreibung:**
+
+Gibt dem Nutzer Kontrolle über automatisches Physik-Layout zurück - das Beste aus beiden Welten. Drag → Zettel folgt Cursor → Mouse-Up → Position fixiert und in LocalStorage gespeichert.
 
 **Akzeptanzkriterien:**
 - [ ] Mouse-Down startet Drag
@@ -165,6 +175,10 @@ Dies ist das **absolute Kernfeature** von ZettelWeb und der Hauptgrund, warum di
 **User Story:**
 > Als Nutzer will ich den Graphen zoomen und verschieben können, damit ich navigieren kann.
 
+**Beschreibung:**
+
+Bei 200+ Zetteln unmöglich, alle Details gleichzeitig zu sehen - Zoom & Pan ermöglichen Wechsel zwischen Überblick und Detail. Zoom via Mouse Wheel (50%-200%), Pan via Drag auf leerem Canvas.
+
 **Akzeptanzkriterien:**
 - [ ] **Zoom:** Mouse Wheel, Zoom-Range 50%-200%, Zoom-Zentrum = Mausposition
 - [ ] **Pan:** Drag auf leerem Canvas oder mittlere Maustaste
@@ -187,6 +201,10 @@ Dies ist das **absolute Kernfeature** von ZettelWeb und der Hauptgrund, warum di
 
 **User Story:**
 > Als Nutzer will ich nach Tags filtern können, damit ich nur Zettel zu einem Thema sehe.
+
+**Beschreibung:**
+
+Ermöglicht fokussiertes Arbeiten bei vielfältigen Themen - 200 Zettel aus 10 Themenbereichen sind kognitiv überwältigend. Tag-Dropdown → Filter → Zettel ohne Tag werden ausgeblendet, Mehrfach-Filter möglich (UND).
 
 **Akzeptanzkriterien:**
 - [ ] Tag-Filter-Dropdown (alle Tags)
@@ -213,6 +231,10 @@ Dies ist das **absolute Kernfeature** von ZettelWeb und der Hauptgrund, warum di
 **User Story:**
 > Als Nutzer will ich bei Tag-Filter auch verbundene Zettel außerhalb sehen (semi-transparent), damit ich Zusammenhänge erkenne.
 
+**Beschreibung:**
+
+Das innovativste UX-Feature - löst Kontext-Verlust bei Filterung. 3 Kategorien: Mit Tag = voll sichtbar, ohne Tag aber verbunden = semi-transparent (opacity 0.3), ohne Tag & ohne Verbindung = ausgeblendet.
+
 **Akzeptanzkriterien:**
 - [ ] Mit Tag: voll sichtbar (opacity 1.0)
 - [ ] Ohne Tag aber verbunden: semi-transparent (opacity 0.3)
@@ -236,6 +258,10 @@ Dies ist das **absolute Kernfeature** von ZettelWeb und der Hauptgrund, warum di
 
 **User Story:**
 > Als Nutzer will ich beim Hover sehen welche Zettel verbunden sind, damit ich Zusammenhänge schnell erkenne.
+
+**Beschreibung:**
+
+Sofortiges visuelles Feedback beim Explorieren - bei 300+ Linien schwer zu sagen welche Zettel verbunden sind. Mousemove → Gehoverter Zettel + verbundene hervorheben, andere dimmen (opacity 0.3) → Mouse-Out → zurück zu normal.
 
 **Akzeptanzkriterien:**
 - [ ] Hover über Zettel: dieser hervorgehoben
@@ -264,6 +290,10 @@ Dies ist das **absolute Kernfeature** von ZettelWeb und der Hauptgrund, warum di
 **User Story:**
 > Als Nutzer will ich dass manuell verschobene Zettel bleiben, damit ich beim nächsten Öffnen die Anordnung wiederfinde.
 
+**Beschreibung:**
+
+Der Grund, warum Drag & Drop Sinn macht - ohne Persistierung wäre jede arrangierte Position nach Reload verloren. Nach Drag → Position in LocalStorage (debounced), bei App-Start → gespeicherte Positionen anwenden (Force-Simulation läuft NICHT).
+
 **Akzeptanzkriterien:**
 - [ ] Nach Drag: Position (x,y) gespeichert
 - [ ] Automatisch (kein "Save"-Button)
@@ -289,6 +319,10 @@ Dies ist das **absolute Kernfeature** von ZettelWeb und der Hauptgrund, warum di
 
 **User Story:**
 > Als Nutzer will ich dass Zoom, Pan und Filter gespeichert werden, damit ich an gleicher Stelle weitermache.
+
+**Beschreibung:**
+
+Während FR-4.1 Zettel-Positionen speichert, persistiert FR-4.2 den View-State (Zoom, Pan, aktiver Tag-Filter) in LocalStorage. Ohne dies muss der Nutzer nach jedem Reload neu navigieren und filtern - frustrierend bei täglicher Nutzung. Die drei Komponenten werden automatisch bei Änderung gespeichert (debounced 500ms) und beim App-Start wiederhergestellt.
 
 **Akzeptanzkriterien:**
 - [ ] Gespeichert: Zoom-Level, Pan-Position, Aktiver Tag-Filter

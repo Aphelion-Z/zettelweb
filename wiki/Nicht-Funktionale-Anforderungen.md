@@ -33,6 +33,8 @@
 ### Beschreibung
 Das System soll auch bei vielen Zetteln (200+) flüssig und responsive bleiben, ohne sichtbare Verzögerungen oder Ruckler.
 
+**Kontext & Begründung:** Performance ist das kritische Qualitätsmerkmal für ZettelWeb - wenn der Graph ruckelt oder einfriert, ist die gesamte Anwendung unbrauchbar. Bei 200 Zetteln × 1.5 Links/Zettel = ~300 Objekte die in jedem Frame neu gerendert werden müssen (<16ms für 60fps). Ohne strenge Performance-Anforderungen würde ZettelWeb schnell als "laggy" und frustrierend wahrgenommen.
+
 ### Messbare Kriterien
 
 #### 1. Framerate (FPS)
@@ -163,6 +165,8 @@ Degradation: (40-33)/40 = 17.5% ✅ Akzeptiert
 ### Beschreibung
 Das System soll in allen gängigen modernen Browsern ohne Einschränkungen funktionieren.
 
+**Kontext & Begründung:** Browser-Kompatibilität ist zwingend für ein Web-Tool - Nutzer haben unterschiedliche Präferenzen (Chrome, Firefox, Safari). Canvas 2D und ES6+ sind etabliert (verfügbar seit ~2017), daher kein unrealistisches Ziel. Ohne klare Browser-Support-Matrix würde das Team endlos Zeit mit Edge-Cases (IE11, alte Android-Browser) verschwenden.
+
 ### Messbare Kriterien
 
 #### 1. Unterstützte Browser
@@ -260,6 +264,8 @@ Safari 17: 200 Zettel @ ≥30fps ✅
 
 ### Beschreibung
 Die Anwendung soll ohne Anleitung verständlich und effizient bedienbar sein.
+
+**Kontext & Begründung:** Eine Graph-Visualisierung ist nur wertvoll wenn sie intuitiv nutzbar ist - komplexe UI würde die Einstiegshürde zu hoch machen. Universelle Interaktions-Patterns (Mouse Wheel = Zoom, Drag = Pan) sind vertraut und funktionieren ohne Training. Usability-Tests mit 3 Personen sind realistisch für Student-Projekt und finden 80% aller UX-Probleme.
 
 ### Messbare Kriterien
 
@@ -374,6 +380,8 @@ Task 5: "Bringe den Graphen wieder in Ausgangszustand"
 
 ### Beschreibung
 Manuell positionierte Zettel und Einstellungen dürfen nicht verloren gehen, auch bei Fehler-Szenarien.
+
+**Kontext & Begründung:** Datenverlust ist katastrophal für UX - 30 Minuten Arrangement-Arbeit verloren = Nutzer deinstalliert App. LocalStorage ist grundsätzlich zuverlässig (persistent bis Browser-Clear), aber Fehlerszenarien (Tab-Crash, voller Storage, Race-Conditions) müssen abgefangen werden. Ohne explizite Persistierungs-Garantie würde FR-4.1/4.2 wertlos.
 
 ### Messbare Kriterien
 
@@ -524,6 +532,8 @@ describe('Persistence', () => {
 ### Beschreibung
 Erste Anzeige des Graphen soll schnell erfolgen für gute User Experience (keine lange Wartezeit).
 
+**Kontext & Begründung:** Nutzer-Erwartung bei Web-Apps: Sofortiges Feedback innerhalb 1-3 Sekunden. Time-to-Interactive >10s = hohe Absprungrate (Nutzer denkt "kaputt" und schließt Tab). 5 Sekunden ist realistisch für 200 Zettel (API ~1s, Parsing ~0.5s, Force-Simulation ~3s) und vermeidet Frustration ohne unrealistische Optimierungs-Anforderungen.
+
 ### Messbare Kriterien
 
 #### 1. Time to Interactive (TTI)
@@ -622,6 +632,8 @@ console.log(`TTI: ${tti}ms`);
 
 ### Beschreibung
 Code soll verständlich, strukturiert und leicht erweiterbar sein für zukünftige Entwicklung.
+
+**Kontext & Begründung:** Student-Projekt mit 7 Entwicklern = Code wird von vielen gelesen und geändert. Ohne Struktur/Docs wird Wartung zum Albtraum ("Wer hat das geschrieben? Was macht diese Funktion?"). JSDoc + Linting + Tests sind etablierte Best Practices, die Qualität erzwingen. Lighthouse Score >80 ist realistisch erreichbar und zeigt messbar gute Web-Entwicklung.
 
 ### Messbare Kriterien
 
