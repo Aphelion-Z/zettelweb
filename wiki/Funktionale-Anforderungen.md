@@ -31,6 +31,16 @@
 **User Story:**
 > Als Nutzer will ich alle Zettel als interaktiven Graphen mit automatischer Positionierung sehen, damit ich sofort erkenne welche Zettel miteinander verbunden sind.
 
+**Beschreibung:**
+
+Dies ist das **absolute Kernfeature** von ZettelWeb und der Hauptgrund, warum diese Anwendung existiert. Während Zettelstore Zettel als einfache, chronologische Liste darstellt, visualisiert ZettelWeb die gesamte Zettel-Sammlung als lebendigen, interaktiven Graphen mit physik-basiertem Layout.
+
+**Warum ist das wichtig?** Bei einer Zettelkasten-Methode mit 50, 100 oder mehr Zetteln verliert man in einer reinen Listen-Ansicht schnell die Übersicht über die Struktur des eigenen Wissens. Der force-directed Graph macht diese Struktur sofort sichtbar.
+
+**Wie funktioniert es technisch?** Das System verwendet ein physikalisches Simulations-Modell zur automatischen Positionierung: Zettel, die durch Links verbunden sind, ziehen sich gegenseitig an (Spring Force), während alle Zettel sich gegenseitig abstoßen (Repulsion Force). Das Resultat: Stark vernetzte Zettel landen automatisch zentral im Graph, Themen-Cluster gruppieren sich natürlich, isolierte Zettel driften an den Rand.
+
+**Was gehört NICHT dazu?** KEIN manuelles Grid/Tree-Layout, KEINE alternativen Layout-Algorithmen, KEINE 3D-Visualisierung.
+
 **Akzeptanzkriterien:**
 - [ ] Alle Zettel aus Zettelstore als Knoten dargestellt
 - [ ] Zettel-Titel ist sichtbar/bei Hover

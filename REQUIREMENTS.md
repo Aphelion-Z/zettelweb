@@ -97,6 +97,47 @@ Insgesamt **11 User Stories** gruppiert in **4 Epics**.
 **will ich** alle Zettel als interaktiven Graphen mit automatischer Positionierung sehen,
 **damit** ich sofort erkenne welche Zettel miteinander verbunden sind und wie das gesamte Wissens-Netzwerk strukturiert ist.
 
+**Beschreibung:**
+
+Dies ist das **absolute Kernfeature** von ZettelWeb und der Hauptgrund, warum diese Anwendung existiert. Während Zettelstore Zettel als einfache, chronologische Liste darstellt, visualisiert ZettelWeb die gesamte Zettel-Sammlung als lebendigen, interaktiven Graphen mit physik-basiertem Layout.
+
+**Warum ist das wichtig?**
+
+Bei einer Zettelkasten-Methode mit 50, 100 oder mehr Zetteln verliert man in einer reinen Listen-Ansicht schnell die Übersicht über die Struktur des eigenen Wissens. Man sieht nicht:
+- Welche Zettel sind zentrale "Hub"-Zettel mit vielen Verbindungen?
+- Welche Themen-Cluster existieren in meinem Zettelkasten?
+- Welche Zettel sind isoliert und könnten besser vernetzt werden?
+- Wie hängen verschiedene Gedankenstränge zusammen?
+
+Der force-directed Graph macht diese Struktur **sofort sichtbar**. Das menschliche Gehirn ist extrem gut darin, räumliche Muster zu erkennen - genau das nutzt diese Visualisierung aus.
+
+**Wie funktioniert es technisch?**
+
+Das System verwendet ein **physikalisches Simulations-Modell** zur automatischen Positionierung der Zettel:
+
+- **Anziehungskraft (Spring Force):** Zettel, die durch Links verbunden sind, ziehen sich gegenseitig an, als wären sie durch Federn verbunden. Je näher zwei verlinkte Zettel beieinander sind, desto "entspannter" ist die Feder.
+
+- **Abstoßungskraft (Repulsion/Charge Force):** Alle Zettel stoßen sich gegenseitig ab, ähnlich wie gleichnamige elektrische Ladungen. Das verhindert, dass unverbundene Zettel übereinander liegen.
+
+- **Zentrierung:** Eine schwache Kraft zieht alle Zettel leicht zum Zentrum des Bildschirms, damit der Graph nicht "davon schwebt".
+
+- **Simulation:** Diese Kräfte wirken in jeder Animation-Frame, bis sich ein stabiles Equilibrium einstellt (üblicherweise nach 3-5 Sekunden).
+
+**Resultat:** Stark vernetzte Zettel landen automatisch zentral im Graph, Themen-Cluster gruppieren sich natürlich, isolierte Zettel driften an den Rand.
+
+**Was gehört NICHT dazu?**
+
+- **KEIN manuelles Grid/Tree-Layout:** Die Positionen werden ausschließlich durch die Physik-Simulation bestimmt (manuelles Feintuning ist nur via Drag & Drop in FR-2.2 möglich).
+- **KEINE alternativen Layout-Algorithmen:** Kein hierarchisches, radiales oder Circular Layout - nur force-directed.
+- **KEINE 3D-Visualisierung:** Der Graph bleibt 2-dimensional. 3D würde Navigation erschweren und ist für Zettelkasten-Strukturen nicht nötig.
+
+**Kontext zur Vision:**
+
+Dieses Feature basiert direkt auf den Vision-PDFs, wo explizit beschrieben wurde:
+> "Die Position und Entfernung der jeweiligen Zettel [...] soll den Verbindungen und Zetteln selbst passen [...] je nachdem welcher Zettel wie viele Verbindungen mit welchen Zetteln hat"
+
+Die Physik-basierten Werte (Anziehung, Abstoßung, Koordinaten) waren Kern der ursprünglichen Idee.
+
 **Akzeptanzkriterien:**
 - [ ] Alle Zettel aus Zettelstore werden als Knoten (Kreise/Rechtecke) dargestellt
 - [ ] Zettel-Titel ist auf dem Knoten sichtbar (oder bei Hover)
@@ -137,6 +178,43 @@ Dann:
 **will ich** Verbindungen zwischen Zetteln als Linien sehen,
 **damit** ich sofort erkenne welche Zettel miteinander verknüpft sind.
 
+**Beschreibung:**
+
+Während FR-1.1 die Zettel selbst darstellt, sorgt diese Anforderung dafür, dass die **Beziehungen** zwischen Zetteln visuell erkennbar werden. In einem Zettelkasten-System sind Verbindungen genauso wichtig wie die Zettel selbst - sie repräsentieren den Zusammenhang von Gedanken und Wissens-Strukturen.
+
+**Warum ist das wichtig?**
+
+Die Kraft eines Zettelkastens liegt nicht in einzelnen isolierten Notizen, sondern in deren Vernetzung. Luhmanns Zettelkasten wurde so wertvoll, weil Zettel systematisch aufeinander verwiesen. In der Graph-Visualisierung müssen diese Links daher klar sichtbar sein:
+- **Welche Zettel sind direkt miteinander verbunden?**
+- **Wie dicht ist ein Themen-Cluster vernetzt?**
+- **Welche Zettel sind Brücken zwischen verschiedenen Themenbereichen?**
+
+Ohne sichtbare Verbindungen wäre der Graph nur eine Sammlung von Punkten ohne erkennbare Struktur.
+
+**Wie funktioniert es?**
+
+Für jeden Link zwischen zwei Zetteln (z.B. Zettel A verlinkt auf Zettel B) wird eine **durchgezogene Linie** gezeichnet:
+
+1. **Start-/Endpunkt:** Die Linie beginnt am Rand von Zettel A und endet am Rand von Zettel B (nicht im Zentrum, sonst würden Linien unter den Zetteln verschwinden).
+
+2. **Collision Detection:** Das System berechnet die Schnittpunkte der Linie mit den Zettel-Grenzen, sodass die Linie genau dort endet wo der Zettel beginnt.
+
+3. **Bidirektionale Links:** Wenn Zettel A auf B verweist UND B auf A, wird trotzdem nur EINE Linie gezeichnet (keine doppelten Linien).
+
+4. **Styling:** Linienfarbe und -dicke sind konfigurierbar (z.B. graue, semi-transparente Linien als Standard, damit sie den Graphen nicht überladen).
+
+**Was gehört NICHT dazu?**
+
+- **KEINE gerichteten Pfeile:** Linien sind einfache Striche ohne Pfeilspitzen (die Richtung des Links ist im Detail-View sichtbar, nicht im Graph selbst).
+- **KEINE Linien-Labels:** Keine Beschriftungen auf den Linien (z.B. "ist verwandt mit" - das würde den Graph überladen).
+- **KEINE Curved/Bezier-Linien:** Nur gerade Linien für Performance und Klarheit (curved lines würden bei 200+ Zetteln zu viel CPU-Last erzeugen).
+
+**Technische Überlegung:**
+
+Bei 200 Zetteln mit durchschnittlich 1.5 Links pro Zettel entstehen ~300 Linien. Diese müssen in jedem Frame (30-60x pro Sekunde) neu gerendert werden, daher ist Performance kritisch:
+- Canvas `lineTo()` ist schneller als SVG `<line>` Elemente
+- Linien nur im sichtbaren Viewport rendern (Viewport Culling)
+
 **Akzeptanzkriterien:**
 - [ ] Jede Verbindung zwischen Zetteln ist als Linie dargestellt
 - [ ] Linien verbinden Zettel-Mittelpunkte oder Ränder
@@ -171,6 +249,50 @@ Dann:
 **Als** Nutzer
 **will ich** beim Öffnen der Anwendung automatisch den Graphen geladen bekommen,
 **damit** ich sofort mit der Exploration beginnen kann.
+
+**Beschreibung:**
+
+Diese Anforderung definiert den **gesamten Startprozess** von ZettelWeb - vom Öffnen der URL bis zum sichtbaren, interaktiven Graphen. Sie orchestriert das Zusammenspiel von API-Zugriff, Daten-Verarbeitung, Position-Wiederherstellung und Initial-Rendering.
+
+**Warum ist das wichtig?**
+
+Der erste Eindruck entscheidet: Wenn ein Nutzer ZettelWeb öffnet und 10 Sekunden auf einen weißen Bildschirm starrt, wird er frustriert sein und die Anwendung verlassen. Eine gute User Experience erfordert:
+- **Unmittelbares Feedback:** Loading-Indicator zeigt, dass etwas passiert
+- **Schneller Time-to-Interactive:** <3 Sekunden bis der Graph sichtbar ist
+- **Fehlertoleranz:** Klare Fehlermeldungen wenn Zettelstore nicht erreichbar ist
+- **Smart Loading:** Gespeicherte Positionen wiederherstellen statt jedes Mal neu zu simulieren
+
+Diese Anforderung ist der "Kleber" zwischen allen anderen Features - ohne einen funktionierenden Load-Prozess würde nichts anderes funktionieren.
+
+**Wie funktioniert der Load-Prozess?**
+
+Der Ablauf beim App-Start ist sequentiell:
+
+1. **URL aufgerufen:** Browser lädt HTML/CSS/JavaScript
+2. **App initialisiert:** JavaScript startet, Canvas-Element wird vorbereitet
+3. **Loading-Indicator:** Spinner wird angezeigt ("Laden...")
+4. **API-Call:** `fetch('http://zettelstore:23123/z')` holt alle Zettel-Daten
+5. **Daten parsen:** JSON wird in Zettel-Objekte + Link-Liste umgewandelt
+6. **Position-Check:** LocalStorage prüfen - gibt es gespeicherte Positionen?
+   - **JA:** Positionen laden und direkt rendern (sofort fertig, keine Simulation!)
+   - **NEIN:** Force-Simulation starten (Zettel bewegen sich 3-5 Sekunden)
+7. **Graph rendern:** Canvas wird zum ersten Mal gezeichnet
+8. **Loading entfernen:** Spinner verschwindet, Graph ist interaktiv
+
+**Time-to-Interactive (TTI):** Maximal 3 Sekunden von Schritt 3 bis Schritt 8.
+
+**Was gehört NICHT dazu?**
+
+- **KEIN manueller "Load"-Button:** Die App lädt automatisch, nicht erst nach User-Aktion.
+- **KEINE Pagination:** Alle Zettel werden auf einmal geladen (keine "Lade mehr..."-Buttons).
+- **KEIN Progressive Loading:** Kein Rendering von erst 50, dann 100, dann 200 Zetteln - sondern alle gleichzeitig.
+
+**Fehlerbehandlung:**
+
+Wenn der Zettelstore nicht erreichbar ist (z.B. nicht gestartet, falsche URL, Netzwerkfehler):
+- **User-freundliche Nachricht:** "Zettelstore ist nicht erreichbar. Bitte starten Sie Zettelstore und versuchen Sie es erneut."
+- **Retry-Option:** Button "Nochmal versuchen" ruft den Load-Prozess erneut auf
+- **Technische Details (optional):** In Developer Console: Genaue Fehlermeldung + Zettelstore-URL
 
 **Akzeptanzkriterien:**
 - [ ] App startet automatisch mit Graph-Ansicht (kein "Load"-Button nötig)
@@ -222,6 +344,45 @@ Dann:
 **will ich** durch Klick auf einen Zettel dessen Inhalt sehen,
 **damit** ich die Informationen lesen kann ohne Zettelstore selbst öffnen zu müssen.
 
+**Beschreibung:**
+
+Der Graph zeigt die **Struktur** des Zettelkastens, aber um wirklich mit den Zetteln zu arbeiten, muss der Nutzer die **Inhalte** lesen können. Diese Anforderung macht ZettelWeb zu einer echten Read-Only-Visualisierung des Zettelkastens, nicht nur zu einem abstrakten Netzwerk-Diagramm.
+
+**Warum ist das wichtig?**
+
+Ein Graph ohne Inhalts-Anzeige wäre wie ein Stadtplan ohne Straßennamen - man sieht die Struktur, aber kann nichts Konkretes damit anfangen. Der Nutzer muss:
+- **Zettel lesen können,** um zu entscheiden ob ein Zettel relevant ist
+- **Metadaten sehen** (Tags, Datum) für Kontext
+- **Verknüpfte Zettel finden,** um von einem Gedanken zum nächsten zu springen
+- **Markdown-Formatierung erkennen** (Überschriften, Listen, Links) für bessere Lesbarkeit
+
+Dies ist die Brücke zwischen "Graph ansehen" und "Wissensarbeit leisten".
+
+**Wie funktioniert es?**
+
+1. **Click-Detection:** Wenn der Nutzer auf einen Punkt im Canvas klickt, berechnet das System welcher Zettel (falls vorhanden) getroffen wurde (Hit-Testing).
+
+2. **Zettel-Daten laden:** Für den geklickten Zettel wird ein API-Call zu Zettelstore gemacht: `GET /z/{zettel-id}` um den vollständigen Inhalt zu holen.
+
+3. **Detail-View rendern:** Ein Modal oder Sidebar erscheint mit:
+   - **Titel:** Groß und prominent (z.B. H1)
+   - **Inhalt:** Vollständiger Zettel-Text, Markdown → HTML gerendert
+   - **Metadaten:** Tags als Chips, Erstellungsdatum, Zettel-ID
+   - **Verknüpfungen:** Liste aller verlinkten Zettel als anklickbare Links
+   - **Schließen-Button:** X-Icon oben rechts
+
+4. **Navigation:** Klick auf einen verlinkten Zettel in der Liste lädt diesen Zettel im gleichen Modal (kein neues Fenster öffnen).
+
+**Was gehört NICHT dazu?**
+
+- **KEIN Bearbeiten:** Zettel-Inhalt ist Read-Only! Keine Textfelder, kein "Speichern"-Button. (Siehe Nicht-Anforderung #3: ZettelWeb ist reine Visualisierung)
+- **KEIN neues Fenster:** Detail-View öffnet sich als Overlay, nicht als Browser-Tab
+- **KEINE Zettel-Erstellung:** Kein "Neuer Zettel"-Button
+
+**Technische Überlegung:**
+
+Markdown-Rendering (z.B. via marked.js) muss **XSS-sicher** sein - Zettel-Inhalte könnten `<script>` Tags enthalten. Daher: Sanitizing aktivieren!
+
 **Akzeptanzkriterien:**
 - [ ] Single-Click auf Zettel öffnet Detail-Ansicht
 - [ ] Detail-Ansicht zeigt:
@@ -266,6 +427,50 @@ Dann: Modal schließt sich, Graph bleibt sichtbar
 **will ich** Zettel mit der Maus verschieben können,
 **damit** ich die Anordnung nach meinen Vorstellungen anpassen kann.
 
+**Beschreibung:**
+
+Während FR-1.1 Zettel automatisch durch Physik-Simulation positioniert, gibt diese Anforderung dem Nutzer die **Kontrolle zurück**. Sie ermöglicht manuelles Feintuning des automatischen Layouts - das Beste aus beiden Welten.
+
+**Warum ist das wichtig?**
+
+Die automatische Force-Directed-Positionierung ist gut, aber nicht perfekt:
+- **Manchmal überlappen Zettel** trotz Abstoßungskraft leicht
+- **Manchmal möchte der Nutzer eine bestimmte Anordnung** (z.B. wichtige Zettel oben links)
+- **Manchmal stabilisiert sich die Simulation suboptimal** (lokales statt globales Optimum)
+
+Drag & Drop gibt dem Nutzer die Möglichkeit, diese Probleme zu beheben und den Graphen nach persönlichen Vorlieben anzupassen - ohne die automatische Positionierung komplett zu verlieren.
+
+**Wie funktioniert es?**
+
+Der Drag-Prozess läuft in drei Phasen:
+
+1. **Mouse-Down (Drag Start):**
+   - Hit-Testing: Welcher Zettel wurde geklickt?
+   - Physik-Simulation **pausieren** (sonst würde der Zettel zurück "schnappen")
+   - Visuelles Feedback: Cursor wird zu "grab" (Hand-Symbol)
+
+2. **Mouse-Move (Dragging):**
+   - Zettel folgt Maus-Position in jedem Frame
+   - **Verbindungslinien werden live aktualisiert** (bewegen sich mit)
+   - Andere Zettel bleiben wo sie sind (keine Domino-Effekt)
+
+3. **Mouse-Up (Drag End):**
+   - Zettel bleibt an neuer Position "fixiert"
+   - Position wird **sofort in LocalStorage gespeichert**
+   - Cursor zurück zu "default"
+
+**Performance-Trick:** Position wird erst nach Drag-Ende gespeichert, nicht bei jedem Pixel-Movement (Debouncing!).
+
+**Was gehört NICHT dazu?**
+
+- **KEINE automatische Anpassung anderer Zettel:** Nur der gedraggede Zettel bewegt sich, andere bleiben statisch (kein "Push away"-Verhalten)
+- **KEINE Multi-Selection:** Nur ein Zettel auf einmal draggen, nicht mehrere gleichzeitig
+- **KEIN Touch-Support:** Nur Maus, keine Touch-Gesten (siehe Nicht-Anforderung #7: Desktop-First)
+
+**Beziehung zu FR-4.1:**
+
+Diese Funktion ist eng mit FR-4.1 (Position-Persistierung) verbunden - ohne Speicherung wäre Drag & Drop sinnlos, da beim Reload alles zurückspringen würde.
+
 **Akzeptanzkriterien:**
 - [ ] Mouse-Down auf Zettel startet Drag-Operation
 - [ ] Während Drag: Zettel folgt Maus-Cursor smooth
@@ -305,6 +510,46 @@ Dann: Zettel ist immer noch bei (200, 200) (persistiert!)
 **Als** Nutzer
 **will ich** den Graphen zoomen und verschieben können,
 **damit** ich bei vielen Zetteln die Übersicht behalte und Details erkenne.
+
+**Beschreibung:**
+
+Bei 200+ Zetteln auf einem Bildschirm ist es unmöglich, alle Details gleichzeitig zu sehen. Diese Anforderung macht den Graphen zu einem navigierbaren Raum - ähnlich wie Google Maps, aber für Wissen. Zoom & Pan sind essenzielle Navigation-Tools für große Graphen.
+
+**Warum ist das wichtig?**
+
+Ein statischer, nicht-zoombarer Graph wäre extrem limitiert:
+- **Bei 200 Zetteln:** Zettel-Titel wären mikroskopisch klein und unleserlich
+- **Ohne Pan:** Nur der Zentrale Bereich des Graphen wäre sichtbar, Rand-Zettel unerreichbar
+- **Ohne Zoom:** Kein Wechsel zwischen Überblick (alle Cluster sehen) und Detail (einzelnen Zettel lesen)
+
+Zoom & Pan ermöglichen die "Zoom-in/Zoom-out"-Exploration: Erst Überblick gewinnen, dann in interessante Bereiche zoomen.
+
+**Wie funktioniert es?**
+
+**Zoom:**
+- **Eingabe:** Mouse Wheel (hoch = Zoom In, runter = Zoom Out)
+- **Zoom-Faktor:** Jeder Wheel-Tick ändert Zoom um ~10% (z.B. 100% → 110% → 121%)
+- **Zoom-Zentrum:** Die Position unter dem Maus-Cursor bleibt fix (nicht Canvas-Mitte!) - das fühlt sich natürlich an
+- **Grenzen:** 50% (halbe Größe, mehr Überblick) bis 200% (doppelte Größe, Details)
+
+**Pan:**
+- **Eingabe:** Drag auf leerem Canvas (Hintergrund, nicht auf Zettel) ODER mittlere Maustaste + Drag
+- **Mechanik:** Canvas wird verschoben, Zettel bleiben relativ zueinander an gleicher Position
+- **Smooth:** Transformation wird per RequestAnimationFrame gerendert, keine Sprünge
+
+**UI-Feedback:**
+- Zoom-Level-Anzeige: "125%" in Ecke des Bildschirms
+- "Fit to View"-Button: Berechnet optimalen Zoom sodass alle Zettel sichtbar sind + zentriert den Graphen
+
+**Was gehört NICHT dazu?**
+
+- **KEINE Zoom-Buttons:** Nur Mouse Wheel, keine +/- Buttons (kann in v2.0 ergänzt werden)
+- **KEINE Minimap:** Keine kleine Übersichtskarte in der Ecke (wäre Nice-to-Have für v2.0)
+- **KEIN Zoom auf einzelnen Zettel:** Zoom betrifft immer ganzen Graph, nicht nur einen Zettel
+
+**Performance-Kritisch:**
+
+Zoom/Pan passiert kontinuierlich (bei Wheel-Scroll oder Drag), daher muss Rendering extrem schnell sein. Canvas transform ist hier performanter als Neuberechnung aller Koordinaten.
 
 **Akzeptanzkriterien:**
 - [ ] **Zoom:**
@@ -357,6 +602,45 @@ Dann: Graph wird zentriert und auf optimalen Zoom gesetzt
 **will ich** den Graphen nach Tags filtern können,
 **damit** ich nur Zettel zu einem bestimmten Thema sehe.
 
+**Beschreibung:**
+
+Bei einem großen Zettelkasten mit vielfältigen Themen (Projekt, Philosophie, Rezepte, Code-Snippets, etc.) wird der Graph schnell überladen. Tag-basierte Filterung ermöglicht **fokussiertes Arbeiten** - der Nutzer blendet alles aus außer dem aktuellen Interessensgebiet.
+
+**Warum ist das wichtig?**
+
+Ein ungefilteter Graph mit 200 Zetteln aus 10 verschiedenen Themenbereichen ist **kognitiv überwältigend**:
+- Zu viele visuelle Stimuli → Nutzer findet wichtige Informationen nicht
+- Irrelevante Zettel lenken ab ("Warum sehe ich Rezepte wenn ich an meinem Projekt arbeite?")
+- Struktur eines spezifischen Themas ist schwer erkennbar
+
+Filterung macht aus einem allgemeinen Wissens-Netz ein **themen-spezifisches Arbeits-Werkzeug**. Wie ein Suchscheinwerfer, der nur einen Bereich beleuchtet.
+
+**Wie funktioniert es?**
+
+1. **Tag-Extraktion:** System sammelt alle Tags aus allen Zetteln (z.B. `#projekt`, `#philosophie`, `#code`)
+
+2. **Filter-UI:** Dropdown/Multi-Select in der Toolbar zeigt alle verfügbaren Tags
+
+3. **Filter-Anwendung:**
+   - User wählt z.B. `#projekt`
+   - **Sichtbar:** Nur Zettel die `#projekt` haben (opacity 1.0)
+   - **Ausgeblendet:** Alle anderen Zettel (opacity 0 oder entfernt)
+   - **Verbindungen:** Nur Linien zwischen sichtbaren Zetteln werden gezeichnet
+
+4. **Mehrfach-Filter:** User kann `#projekt` UND `#wichtig` wählen → nur Zettel die BEIDE Tags haben
+
+5. **Filter entfernen:** "Alle anzeigen" → Graph kehrt zu ungefiltert zurück
+
+**Was gehört NICHT dazu?**
+
+- **KEINE Volltext-Suche:** Nur Tag-Filter, nicht Suche im Zettel-Inhalt (das wäre FR-3.X in v2.0)
+- **KEINE negativen Filter:** Kein "Zeige alles AUSSER #rezepte" (nur positive Auswahl)
+- **KEINE Tag-Kombinationen (OR):** Nur UND-Verknüpfung (`#a UND #b`), nicht ODER (`#a ODER #b`)
+
+**Beziehung zu FR-3.2:**
+
+FR-3.2 erweitert diese Anforderung um semi-transparente Darstellung von verbundenen Zetteln außerhalb des Filters - das vermeidet "tote Enden" im gefilterten Graphen.
+
 **Akzeptanzkriterien:**
 - [ ] Tag-Filter-Dropdown in der UI (Liste aller vorhandenen Tags)
 - [ ] Auswahl eines Tags:
@@ -395,6 +679,52 @@ Dann: Alle 100 Zettel sind wieder sichtbar
 **Als** Nutzer
 **will ich** bei aktiver Tag-Filterung auch Zettel außerhalb des Filters sehen wenn sie verbunden sind,
 **damit** ich Zusammenhänge über Tag-Grenzen hinweg erkenne.
+
+**Beschreibung:**
+
+Dies ist das **innovativste UX-Feature** von ZettelWeb - eine Idee aus den ursprünglichen Vision-PDFs, die in kommerziellen Graph-Tools oft fehlt. Es löst ein fundamentales Problem von Filterung: **Kontext-Verlust**. Wenn man nur gefilterte Zettel sieht, verliert man Verbindungen zu verwandten Themen.
+
+**Warum ist das wichtig?**
+
+Stell dir vor, du filterst nach `#projekt`, aber ein wichtiger Zettel hat Tag `#architektur` und ist mit deinem Projekt verbunden. Normale Filterung würde diesen Zettel komplett ausblenden - du würdest eine "tote Ende"-Verbindung sehen, ohne zu wissen wohin sie führt.
+
+Semi-transparente Darstellung gibt **kontextuellen Hinweis**:
+- "Hier gibt es etwas Verbundenes, auch wenn es außerhalb meines Filters liegt"
+- Nutzer kann entscheiden: "Interessant, lass mich draufklicken" oder "Okay, ignorieren"
+
+Dies ist besonders wertvoll für **interdisziplinäres Denken** - Verbindungen zwischen Themen sind oft die interessantesten Einsichten.
+
+**Wie funktioniert es?**
+
+Wenn Tag-Filter aktiv ist (z.B. `#projekt`), durchläuft das System alle Zettel in 3 Kategorien:
+
+1. **Kategorie 1 (voll sichtbar):**
+   - Zettel hat den Filter-Tag → Opacity 1.0, normale Darstellung
+
+2. **Kategorie 2 (semi-transparent):**
+   - Zettel hat NICHT den Filter-Tag
+   - ABER: Zettel ist mit mindestens einem Kategorie-1-Zettel verbunden
+   - → Opacity 0.3, Titel erkennbar aber gedimmt
+
+3. **Kategorie 3 (ausgeblendet):**
+   - Zettel hat NICHT den Filter-Tag
+   - UND: Keine Verbindung zu Kategorie-1-Zetteln
+   - → Opacity 0 oder komplett entfernt
+
+**Verbindungslinien:**
+- Innerhalb Kategorie 1: Normale Linien
+- Zwischen Kategorie 1 ↔ 2: Gestrichelte oder hellere Linien (visueller Hinweis "externes Element")
+
+**Was gehört NICHT dazu?**
+
+- **KEINE transitive Verbindung:** Nur direkte Nachbarn werden semi-transparent, nicht "Nachbarn von Nachbarn"
+- **KEINE Kategorie-Anzeige:** Keine visuelle Markierung "Dies ist ein semi-transparenter Zettel" außer der Opacity
+- **KEIN Dimming von Linien:** Linien zu semi-transparenten Zetteln sind sichtbar, nur anders gestylt
+
+**Vision-Ursprung:**
+
+Direktes Zitat aus "Zettelweb Idee.pdf":
+> "Wenn ein Zettel bei der „Tag"-Darstellung trotzdem eine Verknüpfung zu einem anderen Zettel hat, welcher NICHT das gleiche „Tag" verwendet, könnte dieser trotzdem angezeigt werden, jedoch stark ausgegraut/ semitransparent"
 
 **Akzeptanzkriterien:**
 - [ ] Bei aktivem Tag-Filter:
@@ -441,6 +771,47 @@ Dann:
 **Als** Nutzer
 **will ich** beim Überfahren eines Zettels sehen welche anderen Zettel damit verbunden sind,
 **damit** ich schnell Zusammenhänge erkenne.
+
+**Beschreibung:**
+
+Dieses Feature bietet **sofortiges visuelles Feedback** beim Explorieren des Graphen. Statt jeden Zettel anzuklicken um Verbindungen zu sehen, reicht ein Hover um die direkte Nachbarschaft zu erkennen - wie ein "Spotlight" auf Teile des Netzwerks.
+
+**Warum ist das wichtig?**
+
+Bei 200 Zetteln und 300+ Verbindungen ist der Graph visuell dicht. Linien überkreuzen sich, es ist schwer zu sagen "Welche Zettel sind eigentlich mit diesem hier verbunden?".
+
+Hover-Highlighting macht Verbindungen **instantly erkennbar**:
+- Keine mentale Linie-Verfolgung nötig ("Geht diese Linie zu dem Zettel... oder dem da?")
+- Schnelle Exploration ("Aha, dieser Zettel ist mit 5 anderen verbunden, interessant!")
+- Kein Klick erforderlich (nicht-invasiv, sofortiges Feedback)
+
+Dies ist besonders nützlich in **dicht vernetzten Bereichen** des Graphen, wo viele Linien sich kreuzen.
+
+**Wie funktioniert es?**
+
+Der Hover-Effekt ist ein **temporärer visueller State** (keine Daten-Änderung):
+
+1. **Mousemove-Tracking:** System erkennt wenn Maus über einen Zettel ist (Hit-Testing)
+
+2. **Highlight aktivieren:**
+   - **Gehoverter Zettel:** Visuell hervorheben (z.B. dickerer Rand, andere Farbe, leicht größer)
+   - **Verbundene Zettel:** Ebenfalls hervorheben (gleicher Stil oder leicht anders)
+   - **Alle anderen Zettel:** Dimmen (Opacity 0.3) um Fokus zu schaffen
+   - **Verbindungslinien zum gehover-ten Zettel:** Dicker oder farbig machen
+
+3. **Mouse-Out:** Sofort zurück zu normalem State (alle Zettel wieder gleich sichtbar)
+
+**Performance:** Da Hover kontinuierlich passiert (Maus bewegt sich ständig), muss das Re-Rendering extrem schnell sein (keine Lag-Spikes!).
+
+**Was gehört NICHT dazu?**
+
+- **KEINE Transitive Hervorhebung:** Nur direkte Nachbarn (1-Hop), nicht "Nachbarn von Nachbarn" (2-Hops)
+- **KEIN Hover-Lock:** Kein "Klick um Highlight zu fixieren" - Effekt verschwindet immer bei Mouse-Out
+- **KEINE Hover-Delay:** Effekt erscheint sofort, kein 500ms Tooltip-Delay
+
+**Kombination mit FR-3.2:**
+
+Wenn Tag-Filter + Semi-Transparenz aktiv ist, funktioniert Hover trotzdem - auch semi-transparente Zettel können gehover-t werden.
 
 **Akzeptanzkriterien:**
 - [ ] Hover über Zettel:
@@ -489,6 +860,67 @@ Dann: Alle Zettel wieder normal
 **will ich** dass manuell verschobene Zettel an ihrer Position bleiben,
 **damit** ich beim nächsten Öffnen die gleiche Anordnung wiederfinde.
 
+**Beschreibung:**
+
+Diese Anforderung ist der **Grund, warum manuelles Drag & Drop überhaupt Sinn macht**. Ohne Persistierung würde jeder Browser-Reload oder App-Neustart alle mühsam arrangierten Positionen zerstören - ein extrem frustrierendes Erlebnis.
+
+**Warum ist das kritisch?**
+
+Stell dir vor:
+- User verbringt 10 Minuten damit, den Graphen nach persönlichen Vorlieben anzuordnen
+- Wichtige Projekt-Zettel oben links, Referenzen unten rechts, etc.
+- Browser-Refresh → **POOF**, alles zurück zur Physik-Simulation-Position
+- User muss alles neu arrangieren → Kompletter Arbeitsverlust
+
+Mit Persistierung wird der Graph zu einem **persönlichen Workspace**, der über Sessions hinweg erhalten bleibt - wie ein Desktop, wo Icons bleiben wo man sie hingelegt hat.
+
+**Wie funktioniert es?**
+
+Die Persistierung arbeitet in zwei Richtungen: **Speichern** und **Laden**.
+
+**1. Speichern (nach Drag & Drop):**
+
+Nach jedem erfolgreichen Drag (FR-2.2) wird die neue Position gespeichert:
+
+```javascript
+// Pseudo-Code
+function onDragEnd(zettelId, newX, newY) {
+  positions[zettelId] = { x: newX, y: newY };
+  saveToStorage(positions); // Debounced!
+}
+```
+
+**Storage-Format (JSON in LocalStorage):**
+```json
+{
+  "version": "1.0",
+  "positions": {
+    "20251027134512": { "x": 450.5, "y": 320.8 },
+    "20251028091234": { "x": 120.0, "y": 500.3 }
+  }
+}
+```
+
+**2. Laden (bei App-Start in FR-1.3):**
+
+Beim Initial Load (FR-1.3) prüft das System LocalStorage:
+- **Gespeicherte Positionen gefunden:** Zettel werden direkt an gespeicherte Positionen platziert, Force-Simulation läuft NICHT
+- **Keine Positionen:** Force-Simulation positioniert alle Zettel automatisch
+
+**Performance:** Debouncing ist kritisch - nicht nach jedem Pixel speichern, sondern erst nach Drag-Ende (sonst würde LocalStorage bei jedem Frame geschrieben = langsam!)
+
+**Was gehört NICHT dazu?**
+
+- **KEINE Cloud-Speicherung:** Nur Browser-lokal, nicht über Geräte hinweg sync-bar (siehe Nicht-Anforderung #2)
+- **KEIN Versions-Konflikt-Handling:** Bei mehreren Browser-Tabs überschreibt letzter Drag einfach (keine Merge-Strategie)
+- **KEIN Export/Import:** Keine Möglichkeit Positionen als Datei zu exportieren (v2.0 Feature)
+
+**Crash-Sicherheit:**
+
+LocalStorage ist **persistent by default** - selbst bei Browser-Crash bleiben Daten erhalten (im Gegensatz zu sessionStorage). Allerdings:
+- **Cache-Löschen:** User kann Browser-Cache löschen → Positionen weg (akzeptable Einschränkung)
+- **Inkognito-Modus:** Positionen werden NICHT gespeichert (LocalStorage ist flüchtig)
+
 **Akzeptanzkriterien:**
 - [ ] Nach jedem manuellen Drag eines Zettels:
   - [ ] Position (x, y Koordinaten) wird gespeichert
@@ -536,6 +968,63 @@ Dann:
 **will ich** dass Zoom-Level, Pan-Position und Filter-Einstellungen gespeichert werden,
 **damit** ich beim Wiederkehren an der gleichen Stelle weitermachen kann.
 
+**Beschreibung:**
+
+Während FR-4.1 die räumliche Anordnung der Zettel speichert, bewahrt FR-4.2 die **View-Einstellungen** - wie der Nutzer den Graphen betrachtet und welche Filter aktiv sind. Zusammen ergeben beide ein **vollständiges Workspace-Restore**.
+
+**Warum ist das wichtig?**
+
+Ohne View-State-Persistierung würde nach jedem Reload:
+- **Zoom zurück auf 100%** → User muss wieder rein/raus zoomen
+- **Canvas zurück zu (0, 0)** → User muss wieder zur interessanten Stelle panen
+- **Filter deaktiviert** → User muss Tag-Filter wieder setzen
+
+Das ist **subtil frustrierend** - wie wenn dein Text-Editor bei jedem Öffnen zurück zu Zeile 1 scrollt statt zur letzten Arbeitsposition.
+
+**Use-Case:** User arbeitet an einem Projekt-Cluster (gezoomt auf 150%, gepanned zu Projekt-Bereich, gefiltert nach `#projekt`). Schließt Browser. Am nächsten Tag: Öffnet ZettelWeb und sieht **exakt den gleichen View** - kann sofort weiterarbeiten.
+
+**Wie funktioniert es?**
+
+Drei unabhängige State-Komponenten werden gespeichert:
+
+**1. Zoom-Level:**
+- Aktueller Zoom-Faktor (z.B. 1.5 für 150%)
+- Wird bei jedem Zoom-Event aktualisiert (mit Debouncing)
+
+**2. Pan-Position:**
+- Canvas-Offset (x, y)
+- Wird bei jedem Pan-Event aktualisiert (mit Debouncing)
+
+**3. Aktiver Filter:**
+- Liste der aktuell ausgewählten Tags (z.B. `["#projekt", "#wichtig"]`)
+- Wird bei Filter-Änderung sofort gespeichert
+
+**Storage-Format (JSON in LocalStorage, separater Key von FR-4.1):**
+```json
+{
+  "version": "1.0",
+  "zoom": 1.5,
+  "pan": { "x": 100, "y": 200 },
+  "filter": ["#projekt", "#wichtig"]
+}
+```
+
+**Debouncing:** Zoom/Pan passieren kontinuierlich (jeder Mouse-Move beim Pan), daher ist Debouncing essentiell - z.B. 500ms nach letzter Änderung speichern.
+
+**Was gehört NICHT dazu?**
+
+- **KEINE History/Undo:** Kein "Gehe zurück zu vorherigem View-State"
+- **KEINE Multiple Saved Views:** Nur EIN gespeicherter State, keine "View A, View B, View C"-Slots
+- **KEIN Auto-Reset:** State bleibt gespeichert bis User explizit "Reset View" drückt
+
+**Beziehung zu FR-4.1:**
+
+FR-4.1 und FR-4.2 sind komplementär:
+- FR-4.1: **WO** sind die Zettel? (Positionen)
+- FR-4.2: **WIE** betrachte ich sie? (Zoom, Pan, Filter)
+
+Zusammen: Vollständiges Workspace-Restore.
+
 **Akzeptanzkriterien:**
 - [ ] Folgende Zustände werden gespeichert:
   - [ ] Zoom-Level (z.B. 150%)
@@ -582,6 +1071,36 @@ Dann:
 **Beschreibung:**
 Das System soll auch bei vielen Zetteln flüssig und responsive bleiben.
 
+**Kontext & Begründung:**
+
+Performance ist **DAS kritische Qualitätsmerkmal** für ZettelWeb - wenn der Graph ruckelt oder einfriert, ist die gesamte Anwendung unbrauchbar. Dies ist kein "Nice-to-Have", sondern eine **fundamentale Anforderung**.
+
+**Warum ist das so kritisch?**
+
+1. **Real-Time-Interaktion:** Nutzer manipulieren den Graphen kontinuierlich (Drag, Zoom, Pan). Bei <30fps fühlt sich die App "laggy" und träge an - extrem frustrierend.
+
+2. **Großer Daten-Umfang:** 200 Zettel × 1.5 Links/Zettel = ~300 Objekte die in jedem Frame (30-60x pro Sekunde!) neu gerendert werden müssen. Ohne Optimierung: sofortiger Performance-Kollaps.
+
+3. **Physik-Simulation:** Force-Directed Layout ist rechenintensiv - jeder Zettel übt Kräfte auf alle anderen aus (O(n²) naiv, O(n log n) optimiert). Läuft in jedem Frame während Simulation.
+
+4. **User-Erwartung:** Moderne Web-Apps (Google Maps, Figma, etc.) haben 60fps gesetzt als Standard. Alles darunter fühlt sich "kaputt" an.
+
+**Was passiert bei schlechter Performance?**
+
+- **<20 fps:** Graph fühlt sich "ruckelig" an, Drag & Drop ungenau
+- **<10 fps:** Praktisch unbenutzbar, extreme Frustration
+- **Freezes >1s:** User denkt App ist abgestürzt
+
+**Performance ist nicht negotiable** - ohne flüssiges Rendering kann ZettelWeb seine Kern-Funktion (interaktiver Graph) nicht erfüllen.
+
+**Technische Herausforderungen:**
+
+Die 200-Zettel-Anforderung ist **absichtlich ambitioniert** - es zwingt das Team zu echter Optimierung:
+- Canvas statt SVG (viel schneller bei vielen Objekten)
+- Barnes-Hut statt naiver O(n²) Force-Berechnung
+- Viewport Culling (off-screen Objekte nicht rendern)
+- RequestAnimationFrame (Browser-optimiert)
+
 **Messbare Kriterien:**
 - **Framerate:** ≥30 fps während normaler Nutzung (Drag, Zoom, Pan)
 - **Initial Render:** <3 Sekunden für 200 Zettel (vom API-Call bis sichtbarer Graph)
@@ -624,6 +1143,33 @@ Dann: Keine sichtbaren Lags, smooth movement
 **Beschreibung:**
 Das System soll in allen gängigen modernen Browsern funktionieren.
 
+**Kontext & Begründung:**
+
+Browser-Kompatibilität sichert dass ZettelWeb **für die breite Masse** nutzbar ist, nicht nur für Entwickler mit neuesten Chrome-Versionen. Dies ist essentiell für eine öffentliche Web-Anwendung.
+
+**Warum wichtig?**
+
+- **Diverse Nutzer-Basis:** Manche nutzen Firefox (Privacy), manche Safari (macOS), manche Edge (Corporate). Wenn ZettelWeb nur in einem Browser läuft, schließt das viele potenzielle Nutzer aus.
+
+- **Langlebigkeit:** Browser-Updates brechen manchmal Features. Unterstützung für "letzte 2 Major-Versionen" gibt Buffer bei Breaking Changes.
+
+- **Testing-Realität:** Das Team kann nicht alle Browser gleichzeitig entwickeln. Chrome ist Lead-Plattform, aber Firefox/Safari müssen funktionieren.
+
+**Risiken bei Inkompatibilität:**
+
+- User öffnet ZettelWeb in Safari → weißer Bildschirm → "App ist kaputt" → verlässt sie
+- Subtile Rendering-Unterschiede (Canvas, CSS) führen zu Bugs in bestimmten Browsern
+- Feature-Detection fehlt → App crasht wenn API nicht verfügbar
+
+**Warum "moderne Browser only"?**
+
+Alte Browser (IE11, Chrome <80) erfordern Polyfills, Transpiling, massive Mehrarbeit. ZettelWeb nutzt:
+- ES6+ (Arrow Functions, async/await, Modules)
+- Canvas 2D API (standard seit Jahren)
+- Fetch API (ersetzt XMLHttpRequest)
+
+Diese Features sind in modernen Browsern nativ - kein Babel/Webpack-Overhead nötig.
+
 **Messbare Kriterien:**
 - **Unterstützte Browser:**
   - Chrome/Edge 90+ (letzte 2 Major-Versionen)
@@ -662,6 +1208,36 @@ Dann: UI ist vollständig sichtbar, keine abgeschnittenen Elemente
 
 **Beschreibung:**
 Die Anwendung soll ohne Anleitung verständlich und bedienbar sein.
+
+**Kontext & Begründung:**
+
+Eine Graph-Visualisierung kann technisch perfekt sein, aber wenn Nutzer nicht verstehen **wie** man sie bedient, ist sie wertlos. Usability entscheidet ob ZettelWeb **tatsächlich genutzt** wird oder nach 5 Minuten frustriert geschlossen wird.
+
+**Warum ist Intuitivität kritisch?**
+
+- **Keine dedizierte Schulung:** ZettelWeb ist ein persönliches Tool, keine Enterprise-Software. Nutzer erwarten dass es "einfach funktioniert", ohne 30-seitiges Manual zu lesen.
+
+- **Vertraute Patterns:** Zoom mit Mouse Wheel, Drag mit Maus - das sind universelle Interaktionen die jeder kennt (von Google Maps, Figma, etc.). Wenn ZettelWeb diese Standards bricht, verwirrt es Nutzer.
+
+- **Discovery durch Exploration:** Nutzer sollten Features entdecken können durch "herumspielen", nicht durch Dokumentation-Lesen. Hover-States, visuelles Feedback, Tooltips helfen dabei.
+
+**Negativbeispiel (schlechte Usability):**
+
+Stell dir vor:
+- Zoom funktioniert nur per Tastatur-Shortcut (Strg + +/-)
+- Kein Cursor-Feedback beim Hover über Zettel
+- Drag funktioniert nur mit Rechtsklick
+- Keine sichtbaren Buttons, alles versteckt in Menüs
+
+→ User würde ZettelWeb für "kaputt" halten und aufgeben.
+
+**Ziel-Usability:**
+
+Ein neuer User soll innerhalb **5 Minuten** ohne Hilfe:
+- Den Graphen zoomen & panen
+- Einen Zettel anklicken und lesen
+- Einen Zettel verschieben
+- Nach einem Tag filtern
 
 **Messbare Kriterien:**
 - **Standard-Interaktionen:**
@@ -708,6 +1284,32 @@ Dann: Cursor ändert sich zu "pointer", Tooltip erscheint
 **Beschreibung:**
 Manuell positionierte Zettel und Einstellungen dürfen nicht verloren gehen.
 
+**Kontext & Begründung:**
+
+Persistierungs-Zuverlässigkeit ist die **Vertrauensgrundlage** zwischen User und ZettelWeb. Wenn Nutzer 30 Minuten investiert um den Graphen zu arrangieren, und diese Arbeit dann verloren geht, ist das **Vertrauensbruch** - User wird die App nie wieder nutzen.
+
+**Warum ist das Must-Have?**
+
+Data Loss ist einer der **schlimmsten UX-Fehler** überhaupt:
+- **Frustration:** "Ich hab das doch gerade erst arrangiert!"
+- **Zeitverschwendung:** Arbeit muss wiederholt werden
+- **Vertrauensverlust:** "Diese App ist unzuverlässig"
+
+Im Gegensatz zu Performance-Problemen (ärgerlich aber tolerierbar) ist Datenverlust **inakzeptabel** - ein einziges Mal reicht um User dauerhaft zu verlieren.
+
+**Kritische Szenarien:**
+
+1. **Browser-Crash während Drag:** System muss letzte gespeicherte Positionen behalten (nicht alle löschen)
+2. **Storage voll:** Graceful Degradation statt Silent Failure
+3. **Korrupte Daten:** JSON-Parsing sollte nicht die gesamte App crashen
+
+**Warum LocalStorage (nicht Server)?**
+
+LocalStorage ist **synchron und sofort persistent** - selbst bei Browser-Crash bleiben Daten erhalten. Ein Server würde:
+- Netzwerk-Latenz einführen (>100ms Speicher-Delay)
+- Fehleranfällig bei Offline-Nutzung
+- Unnötig komplex (Backend nötig)
+
 **Messbare Kriterien:**
 - **Speicher-Latenz:** Position-Update innerhalb 1 Sekunde nach Drag-Ende
 - **Fehlertoleranz:**
@@ -744,6 +1346,36 @@ Dann: Fehlermeldung "Storage voll" + Option alte Daten zu löschen
 **Beschreibung:**
 Erste Anzeige des Graphen soll schnell erfolgen für gute User Experience.
 
+**Kontext & Begründung:**
+
+Der **erste Eindruck zählt**. Wenn ZettelWeb 20 Sekunden zum Laden braucht, denkt der User "Diese App ist langsam/kaputt" und verlässt sie - bevor er überhaupt ein Feature gesehen hat.
+
+**Warum ist Initial Load Time kritisch?**
+
+- **Psychologie:** User erwarten moderne Web-Apps in <3 Sekunden. Alles darüber fühlt sich "träge" an.
+
+- **Perceived Performance:** Selbst wenn tatsächliche Load-Zeit 5s ist, fühlt es sich besser an mit Loading-Spinner als mit weißem Bildschirm.
+
+- **Konkurrenz:** Andere Graph-Tools (Obsidian Graph View, Roam Research) laden sehr schnell. ZettelWeb muss mithalten.
+
+**Performance-Budget Breakdown (5s TTI):**
+
+```
+0-1s:   HTML/CSS/JS Download + Parse
+1-2s:   API-Call zu Zettelstore (/z Endpoint)
+2-3s:   Daten-Parsing + Graph-Struktur-Aufbau
+3-5s:   Force-Simulation Initial Run + Canvas Render
+```
+
+**Warum "Should-Have" nicht "Must-Have"?**
+
+Initial Load ist wichtig, aber nicht showstopper:
+- Nutzer laden die App nur 1x pro Session
+- Nachdem sie geladen ist, läuft sie flüssig (NFR-1 ist kritischer)
+- 6-7 Sekunden wären langsam aber akzeptabel
+
+Aber: <5s ist professioneller Standard und sollte erreicht werden.
+
 **Messbare Kriterien:**
 - **Time to Interactive (TTI):** <5 Sekunden (von URL-Eingabe bis Graph klickbar)
 - **API Response Time:** Zettelstore /z Endpoint <1 Sekunde
@@ -778,6 +1410,34 @@ Lighthouse Score: Performance ≥80/100
 
 **Beschreibung:**
 Code soll verständlich, strukturiert und erweiterbar sein.
+
+**Kontext & Begründung:**
+
+Code-Qualität ist ein **Investment in die Zukunft**. Guter Code heute spart Stunden (oder Tage) an Debugging/Refactoring morgen. In einem Team-Projekt ist Wartbarkeit besonders kritisch - jedes Team-Mitglied muss fremden Code verstehen können.
+
+**Warum ist das wichtig (trotz "Nice-to-Have")?**
+
+- **Team-Zusammenarbeit:** 7 Entwickler arbeiten am Code. Wenn jeder in eigenem Stil schreibt (keine Konventionen), wird die Codebase zum Chaos.
+
+- **Bug-Fixes:** Wenn ein Bug gefunden wird (z.B. Woche vor Abgabe), muss man Code schnell verstehen und fixen können. Bei unleserlichem Code: Panik.
+
+- **Erweiterbarkeit:** Phase 2 & 3 Features bauen auf Phase 1 Code auf. Wenn Phase 1 ein Spaghetti-Mess ist, wird Phase 2 unmöglich.
+
+- **Prüfung:** Professor/Tutor wird Code reviewen. Guter Code = bessere Note.
+
+**Warum "Nice-to-Have" statt "Must-Have"?**
+
+Code-Qualität ist **nicht funktionskritisch**:
+- Schlechter aber funktionierender Code > perfekter aber unfertiger Code
+- In Zeitdruck: Features gehen vor Refactoring
+- Aber: Gewisse Mindest-Qualität ist nötig (daher ESLint, Dokumentation)
+
+**Real-World Szenario:**
+
+Team-Mitglied A schreibt Force-Simulation-Code.
+Team-Mitglied B muss 2 Wochen später einen Bug fixen.
+- **Guter Code:** B liest JSDoc, versteht Funktion, fixed Bug in 30 min
+- **Schlechter Code:** B verbringt 3 Stunden Code zu verstehen, introduced neuen Bug
 
 **Messbare Kriterien:**
 - **Dokumentation:**
