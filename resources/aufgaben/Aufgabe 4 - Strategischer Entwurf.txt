@@ -1,0 +1,23 @@
+Strategischer Entwurf
+Arbeitsanweisung
+Sie haben diverse Architekturbausteine kennen gelernt.
+
+Wenden Sie Ihr Wissen an, indem Sie für Ihre Semesteraufgabe mit Hilfe dieser Bausteine eine angemessene Architektur zur inneren Struktur der von Ihnen geplanten Software festlegen. Denken Sie an die in den Präsenzterminen genannten Bewertungskriterien und Eigenschaften von Architekturen.
+
+Dokumentieren Sie diese Architektur angemessen nachvollziehbar. Verwenden Sie UML-Diagramme, die den erläuternden Text ergänzen.
+
+Zusätzlich zur Architektur erstellen Sie einen Systemaufbau, in dem Sie die Komponenten des Gesamtsystems darstellen. Dazu gehört auf jeden Fall die von Ihnen zu erstellende Software, der Zettelstore und ggf. weitere Komponenten (je nach Projekt).
+
+Denken Sie daran, dass die Architektur sowohl das Kommunikationsmedium zwischen allen an der Entwicklung beteiligten Stakeholdern ist, und das die Architektur das erste Artefakt zur Überprüfung von Qualitätseigenschaften darstellt. Hinweis: auch der Betrieb von Teilsystemen ist ein möglicher Stakeholder. Sprich: wenigstens in Form notwendiger Kommunikation muss die Software Zettelstore Bestandteil Ihrer Architektur sein.
+
+Dokumentieren Sie Ihre Entwurfsentscheidungen in einem Architecture Decision Record (auch: ADR, siehe z.B. hier) auf einer eigenen Wiki-Seite. Ein ADR im Sinne dieser Aufgabe enthält mindestens die Abschnitte "Situation", "Bewertungskriterien", "Alternativen", "Bewertung", "Entscheidung" (inkl. Begründung) und "Konsequenzen". Achten Sie darauf, dass insbesondere die Begründung nicht trivial wird und keine Worte wie "übersichtlich" enthält. Besser ist es, so weit wie möglich auf Adjektive zu verzichten.
+
+Legen Sie die Architekturdokumentation als eine (angemessene) Sammlung von Wiki-Seiten in Ihrem Projektwiki an. Sie signalsieren die Abgabe, indem Sie die Git-Repository-URL der Wikisammelseite hier im ILIAS abgeben. Die Wikisammelseite verweist (direkt oder indirekt) auf die Architekturdokumentation. Spätere Änderungen sind nach der Abgabe nicht mehr erlaubt. Genauer: Sie dürfen (und sollten) die Architekturdokumentation erst nach meiner Bewertung ändern. Allerdings müssen die ADRs unverändert bleiben, Sie dürfen nach der Bewertung neue ADRs erstellen.
+
+Tipp: für das Erstellen von UML-Diagrammen können Sie zum Beispiel den Web-Dienst https://app.diagrams.net/ verwenden.
+
+ABER: ein Diagramm ist keine vollständige Architekturbeschreibung. Nutzen Sie etwas anderes als UML, dann müssen Sie die im Diagramm verwendeten Zeichen definieren, also z.B. die Bedeutung von Strichen und Pfeilen.
+
+Die spätere Software muss der Architektur entsprechen.
+
+Ich gehe davon aus, dass Sie diese Aufgabe vorbereitet haben, da schon länger klar ist, dass es diese Aufgabe im Prinzip geben wird.

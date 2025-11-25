@@ -1,0 +1,13 @@
+Anforderungsanalyse
+Arbeitsanweisung
+Erstellen Sie für Ihr Semesterprojekt eine Beschreibung der Anforderungen. Strukturieren Sie diese so, dass (theoretisch) externe Softwareentwickelnde aus diesen Anforderungen eine Architektur entwickeln können. In nachfolgenden Schritten sollten diese Personen in der Lage sein, auf Basis der Anforderungen und der Architektur die Software zu implementieren.
+
+Die Anforderungen sollen vollständig sein, so wie das zu Beginn eines Projektes abschließend möglich ist. D.h. es darf keine offensichtlichen Lücken geben. Geben Sie auch an, welche Grenzfälle nicht Teil des Semesterprojektes sind. Denken Sie daran, dass es funktionale und nichtfunktionale Anforderungen gibt.
+
+Nutzen Sie insbesondere für die funktionalen Anforderungen Satzschablonen, z.B. nach dem Muster: "Als ROLLE will ich FUNKTIONALITÄT, weil BEGRÜNDUNG". Bei den meisten Anforderungen ist es nicht notwendig, diese mit UML o.ä. zu spezifizieren. Es kann aber Anforderungen geben, bei denen das notwendig ist, etwa wenn es um Anforderungen an Datenstrukturen (→ Klassendiagramm) oder Abläufen (→ Ablaufdiagramm, Zustandsdiagramm, ...) geht. Das hängt aber immer vom konkreten Projekt ab.
+
+Für nichtfunktionale Anforderungen nutzen Sie eine Satzschablone der Art "Das System soll RANDBEDINGUNG erfüllen".
+
+Nutzen Sie für die Ermittlung der Anforderungen die Ihnen bekannten Techniken, z.B. BrainWriting, Interviews, Dokumente. Denken Sie daran, dass es bei Anforderungen meist nicht relevant ist, wie diese genau umgesetzt werden sollen (siehe erster Absatz). Denken Sie daran, dass man auf Basis der Anforderungen einen (ersten) Testplan entwickeln können muss, d.h. für Anforderungen gilt SMART ;)
+
+Erstellen Sie für jede Anforderung ein eigenes Issue in Ihrem Git-Projekt. Im Titel geben Sie das Satzmuster an, in der Beschreibung die notwendigen Details. Erstellen Sie zusätzlich eine Wiki-Seite "Nicht-Anforderungen", in der Sie dokumentieren, welche Anforderungen nicht mehr Teil des Semesterprojekts sein sollen. Als Zeichen, dass Sie mit dieser Aufgabe fertig sind, geben Sie hier im ILIAS die URL der Wiki-Seite "Nicht-Anforderungen" ab. Ein nachträgliches Ändern dieser Seite sowie der Issues gilt als verspätete Abgabe. Nach der Bewertung dieser Aufgabe können (und sollen) Sie natürlich die Anforderungen bei Bedarf anpassen.

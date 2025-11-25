@@ -148,10 +148,11 @@ zettelweb-code/
 └── resources/                          [Documentation]
     ├── CLAUDE.md                       [This file - detailed guidance]
     ├── QUICKSTART.md                   [Quick start guide]
+    ├── aufgaben/                       [Course assignments from professor]
+    ├── aufgaben-erklaert/              [Assignment explanations & solutions]
     ├── docs/api/                       [Zettelstore API docs - 5 files]
-    ├── wiki/                           [Migrated GitLab wiki]
     ├── tutorials/                      [Step-by-step guides]
-    └── aufgaben-erklaert/              [Task explanations]
+    └── wiki/                           [Migrated GitLab wiki]
 ```
 
 **Note:** This repository was migrated from GitLab and restructured into a clean two-folder architecture:

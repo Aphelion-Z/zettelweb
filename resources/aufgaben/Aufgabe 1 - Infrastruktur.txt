@@ -1,0 +1,12 @@
+Infrastruktur
+Arbeitsanweisung
+Damit Sie als Gruppe gemeinsam arbeiten können, benötigen Sie eine gemeinsame Ablage der zu erstellenden Software. Schon im zweiten Semester haben Sie dazu Git kennengelernt. Bestimmt wissen Sie noch, dass ein Git-Repository (genauer: Git-Projekt) für eine gemeinsame Ablage auf einen Server gespeichert wird. Dafür gibt es viele Möglichkeiten:
+
+Sie nutzen den GitLab-Server des Studiengangs WIN (https://gitlab.win.hs-heilbronn.de/). Eine Person der Gruppe richtet unter dem eigenen Account dort ein Git-Projekt ein und berechtigt die anderen Gruppenmitglieder, wie auch Prof. Stern als Veranstalter der Laborarbeiten. Auf diesen Server können Sie nur dann zugreifen, wenn Sie im Netz der Fakultät WI sind (eduVPN!). Die notwendige Berechtigungsstufe ist "Developer".
+Sie nutzen einen freien Server zum Hosting des Git-Projekts. Das kann GitHub, GitLab, Codeberg oder ein anderer Dienst sein. Eine Person der Gruppe erstellt dort ein öffentlich sichtbares Git-Projekt und berechtigt die anderen Gruppenmitglieder. Eine Bedingung für die Nutzung ist, dass Sie dann Ihr Projekt unter eine Open-Source-Lizenz stellen.
+Eine Person der Gruppe hostet selbst schon öffentlich Git-Repositories. Weiter bei 2.
+Diese Aufgabe ist dann erfüllt, wenn Sie ein zugängliches Git-Repository eingerichtet, dort ein Verzeichnis mit Namen "zettel" erstellt und hier im ILIAS die entsprechenden URL abgegeben haben. Sobald Prof. Stern Lesezugriff auf das Git-Projekt hat, wird diese Aufgabe positiv bewertet. Abzüge gibt es bei fehlendem Verzeichnis.
+
+Bei allen Gruppenaufgaben reicht es, wenn ein einziges Gruppenmitglied die Abgabe durchführt, auch bei denen in der Zukunft. Sollten mehrere Mitglieder eine Abgabe vorgenommen haben, zählt die letzte Abgabe (auch falls diese in der Nachfrist erfolgt).
+
+Tipp: alle Gruppenmitglieder sollten das Git-Repository auf dem eigenen Computer "klonen" (d.h. git clone ...). Zum einen müssen Sie das zum späteren Arbeiten sowieso machen und zum anderen ist das ein erster Test, ob alles geklappt hat.

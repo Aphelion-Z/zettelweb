@@ -1,0 +1,19 @@
+Heute zeigen Sie, dass Sie sich seit der ersten / zweiten Woche vorbereitet haben und die Software Zettelstore mitsamt ihrer Markupsprache Zettelmarkup anfangen zu beherrschen.
+
+Erstellen Sie dazu auf Ihrem eigenen (!) Computer einen Zettel im Zettelstore mit folgenden Eigenschaften:
+
+Er enthält (per Transklusion) den Rechnernamen und die Version des Zettelstores; der Zettelstore stellt diese zu transkludierenden Zettel automatisch bereit; dazu müssen Sie den "Experten-Modus" einschalten
+Falls Sie nicht wissen, was Transklusion ist, dann schauen Sie im Handbuch des Zettelstores nach: https://zettelstore.de/manual/
+Der Zettel ist selbst Nachfolgezettelund besitzt einen Vorgängerzettel (aka Prequel)
+Der Zettel ist sein eigener Folgezettel
+Er enthält eine eigene, in Ihrem Zettelstore extra gespeicherte Grafik (kein Bild/Foto!, nicht die vordefinierte Grafik mit der Zettel-ID 00000000040001), mit der maximalen physischen Größe 150x150 px (d.h. nicht skaliert)
+Er enthält eine Definitionsliste ("description list") mit folgenden Punkten
+Nummer und Name Ihrer Gruppe 
+Vorname
+Familienname
+Matrikelnummer
+Benutzerkürzel
+(Dabei ist (ausschließlich) der letzte Buchstabe sowohl des Vor- als auch des Familiennamens fett geschrieben, das Benutzerkürzel wird durchstrichen dargestellt, die Matrikelnummer wird gelb markiert dargestellt. Dazu müssen Sie sich ansehen, wie im Zettelstore / mit Zettelmarkup solche Formatierungen angegeben werden.)
+Er enthält (per Transklusion) Ihre persönlichen Aufgaben in Ihrer Gruppe. D.h. Sie müssen einen separaten Zettel mit Ihren Aufgaben erstellen und diesen per Transklusion einbinden. Hint: jedes Gruppenmitglied besitzt unterschiedliche Aufgaben.
+Er verweist im Inhaltsbereich (nicht in den Metadaten) auf einen weiteren Zettel, der das von Ihrer Gruppe zu lösende Problem beschreibt.
+Laden Sie einen Screenshot der Webansicht dieses Zettels, seine Infoseite und die eigentliche Zetteldatei als ZIP-Datei in den Abgabebereich. Explizit: Sie müssen diese drei Dateien in eine ZIP-Datei packen, nicht das durch ILIAS erledigen lassen. Es gibt ein hartes Limit (< 3) für die Anzahl der hochzuladenen Dateien, d.h. Sie haben einen Fehlversuch.

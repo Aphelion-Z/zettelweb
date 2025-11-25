@@ -13,10 +13,11 @@ Production application code:
 
 ### `resources/`
 Documentation and guides:
+- Course assignments (from professor)
+- Assignment explanations & solutions
 - API documentation
 - Tutorials
 - Wiki (from GitLab)
-- Task explanations
 
 ## Quick Start
 
@@ -42,6 +43,8 @@ View: https://github.com/Aphelion-Z/zettelweb/issues
 
 - `resources/CLAUDE.md` - Complete project guidance
 - `resources/QUICKSTART.md` - Setup guide
+- `resources/aufgaben/` - Course assignments
+- `resources/aufgaben-erklaert/` - Assignment explanations
 - `resources/docs/api/` - API reference
 - `resources/tutorials/` - Learning guides
 

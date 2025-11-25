@@ -1,0 +1,9 @@
+Projektauftrag
+Arbeitsanweisung
+Aus dem Fach "Einführung in das Projektmanagement" (WIN2) kennen Sie den Aufbau eines Projektauftrags.
+
+Erstellen Sie den Projektauftrag als README Ihres Git-Projekts.
+
+Damit ist der Projektauftrag sofort einsehbar, wenn Sie Ihr Repository öffnen.
+
+Als Kennzeichen, dass Sie diese Aufgabe bearbeitet haben, stellen Sie hier die URL des README ein. Wird das README danach noch bearbeitet, gilt es als "verspätet abgegeben". Nach meiner Bewertung dürfen Sie das README natürlich bearbeiten.
