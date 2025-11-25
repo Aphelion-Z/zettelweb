@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ZettelWeb</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>ZettelWeb</h1>
+    <table>
+        <tr><th>ID</th><th>Titel</th></tr>
+        {% for z in zettel %}
+        <tr><td>{{ z.id }}</td><td>{{ z.title }}</td></tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

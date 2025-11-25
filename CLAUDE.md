@@ -12,6 +12,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Persist positions and properties in a database
 - Provide intuitive interaction with visual connections between Zettel
 
+**Current Status:** Milestone 3 achieved - Basic implementation (v0.1) deployed
+- Flask backend operational
+- Simple table-based Zettel display
+- Direct API integration (no authentication yet)
+- 17 updated requirements defined in GitLab issues
+
 ## Architecture
 
 ### MVC Pattern (Model-View-Controller)
@@ -125,14 +131,28 @@ User → View → Controller → Model → Zettelstore Service → Database
 ## Repository Structure
 
 ```
-/wiki/                  # Migrated GitLab wiki documentation
-  /Strategischer-Entwurf/  # Architecture Decision Records (ADRs)
-  /uploads/             # Screenshots and diagrams
-/zettel/                # Zettel directory (placeholder)
-README.md               # Project charter and goals
+zettelweb-code/
+├── app.py                              [v0.1 Implementation]
+├── requirements.txt                    [Python dependencies]
+├── .gitignore                          [Git ignore patterns]
+├── CLAUDE.md                           [This file]
+├── README.md                           [Project charter]
+├── QUICKSTART.md                       [Quick start guide]
+├── templates/                          [Flask templates]
+│   └── index.html
+├── static/                             [CSS/JS assets]
+│   └── style.css
+├── docs/                               [Documentation]
+│   └── api/                            [Zettelstore API docs - 5 files]
+├── Tickets/                            [Requirements tracking]
+│   └── requirements-2025-11-25.csv     [17 user stories from GitLab]
+├── wiki/                               [Migrated GitLab wiki]
+├── tutorials/                          [Step-by-step guides]
+├── aufgaben-erklaert/                  [Task explanations]
+└── zettel/                             [Zettel storage directory]
 ```
 
-**Note:** This repository was migrated from GitLab. The codebase is in early planning/documentation phase - implementation has not yet begun. The wiki contains all architectural decisions and design documentation.
+**Note:** This repository was migrated from GitLab. Milestone 3 (Basic implementation) achieved with Flask backend and table display. The wiki contains all architectural decisions and design documentation.
 
 ## Important Documentation
 
@@ -141,6 +161,102 @@ All architectural decisions are documented in `/wiki/Strategischer-Entwurf/`:
 - **ADR-02:** Database choice (SQLite rationale)
 - **Klassendiagramm-von-der-MVC-Architektur.md:** Detailed MVC class structure with diagram
 - **Systemaufbau.md:** System component architecture diagram
+
+## API Documentation
+
+Comprehensive Zettelstore API documentation is available in `docs/api/`:
+
+1. **README.md** - Navigation guide and quick reference
+2. **01-API-Uebersicht.md** - API basics, URL structure, data formats
+3. **02-Authentifizierung-Autorisierung.md** - JWT authentication, token management, authorization
+4. **03-Endpunkt-Referenz.md** - Complete endpoint reference with examples
+5. **04-Code-Beispiele.md** - Code examples in Python, JavaScript, Bash, Go, Java, C#
+
+### Current API Usage
+
+The current implementation (app.py) uses:
+- **Endpoint:** GET /z (list all Zettel)
+- **Authentication:** None (open endpoint)
+- **Format:** Plain text (ID + title per line)
+
+### Next Steps
+- Implement JWT authentication (POST /a)
+- Fetch full Zettel data (GET /z/{id})
+- Parse metadata and content
+- Extract tags and references
+
+## Requirements Tracking
+
+All requirements are tracked in `Tickets/requirements-2025-11-25.csv` with 17 user stories:
+
+### Functional Requirements (Issues 17-27)
+1. **#17** - Force-directed graph layout with automatic positioning
+2. **#18** - Visual connection lines between Zettel
+3. **#19** - Auto-load graph on opening with saved positions
+4. **#20** - Click to view Zettel details (read-only)
+5. **#21** - Drag & Drop repositioning with persistence
+6. **#22** - Zoom and pan navigation with "Fit to View"
+7. **#23** - Tag-based filtering with AND logic
+8. **#24** - Context preservation (semi-transparent external connections)
+9. **#25** - Hover-based connection highlighting
+10. **#26** - Persistent manual positions with reset option
+11. **#27** - State persistence (zoom, pan, filters)
+
+### Non-Functional Requirements (Issues 28-33)
+12. **#28** - Performance: ≥30 fps, <3s render, <100ms interaction (200+ Zettel)
+13. **#29** - Browser compatibility: Chrome/Edge, Firefox, Safari
+14. **#30** - Usability: ≥70% functions usable within 30 minutes by new users
+15. **#31** - Persistence reliability: ≤1s save time, consistent crash recovery
+16. **#32** - Loading feedback for operations >3 seconds
+17. **#33** - Code maintainability: comprehensive documentation, clear structure
+
+## Current Implementation (v0.1)
+
+### Application Structure
+```
+zettelweb-code/
+├── app.py                    # Flask application (18 lines)
+├── templates/index.html      # Zettel table display
+├── static/style.css          # Basic styling
+├── requirements.txt          # Python dependencies
+├── Tickets/                  # Requirements tracking
+│   └── requirements-2025-11-25.csv
+└── docs/api/                 # API documentation (5 files)
+```
+
+### Running the Application
+
+**Prerequisites:**
+- Python 3.8+
+- Zettelstore running on http://127.0.0.1:23123
+
+**Setup:**
+```bash
+cd zettelweb-code
+python -m venv venv
+source venv/Scripts/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+python app.py
+```
+
+**Access:** http://127.0.0.1:5000
+
+### Features Implemented
+- ✅ Fetch all Zettel from Zettelstore API (GET /z)
+- ✅ Display Zettel ID and title in HTML table
+- ✅ Basic Flask routing
+
+### Features Pending (from Requirements CSV)
+- ❌ Force-directed graph visualization (Issue #17)
+- ❌ Visual connection lines (Issue #18)
+- ❌ JWT authentication (Issue #19)
+- ❌ Click to view details (Issue #20)
+- ❌ Drag & Drop positioning (Issue #21)
+- ❌ Zoom/pan navigation (Issue #22)
+- ❌ Tag-based filtering (Issue #23-24)
+- ❌ Hover highlighting (Issue #25)
+- ❌ Position persistence (Issue #26-27)
+- ❌ Performance optimization (Issue #28)
 
 ## Development Notes
 

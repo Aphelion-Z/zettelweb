@@ -1,0 +1,23 @@
+body {
+    font-family: Arial;
+    margin: 40px;
+}
+
+h1 {
+    color: black;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid gray;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background: white;
+}
