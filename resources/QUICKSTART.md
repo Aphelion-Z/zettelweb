@@ -21,7 +21,7 @@ Verify at: http://127.0.0.1:23123
 ## Step 2: Setup ZettelWeb
 
 ```bash
-cd zettelweb-code
+cd zettelweb-code/project
 python -m venv venv
 source venv/Scripts/activate  # Windows Git Bash
 # or: venv\Scripts\activate   # Windows CMD/PowerShell
@@ -58,7 +58,13 @@ You should see a table listing all your Zettel with IDs and titles.
 ## Architecture
 
 ```
-Browser → Flask (app.py) → Zettelstore API → Zettel Files
+Browser → Flask (project/app.py) → Zettelstore API → Zettel Files
 ```
 
 Current implementation fetches Zettel list via GET /z endpoint without authentication.
+
+## Documentation
+
+- **Full Documentation:** `resources/CLAUDE.md`
+- **API Documentation:** `resources/docs/api/`
+- **Tutorials:** `resources/tutorials/`

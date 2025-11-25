@@ -1,0 +1,20 @@
+Wahl des Architekurmodells + Begründung.
+Modell: MVC, Interaktive Anwendungen mit einer flexiblen Schnittstelle zwischen Mensch und Computer.
+Begründung: Wir haben uns für das Modell MVC (Model/View/Controller) entschieden, da es eine interaktive, datengetriebene Anwendung
+ist, die die Verantwortlichkeiten eindeutig trennt. Unsere Software hat 3 natürliche Schichten: Model, View und Controller. Das Modell
+besteht aus Klassen wie Zettel, Tag, ZettelCluster, welche unterschiedliche Funktionen haben: Zettel laden und Tags analysiern, sowie 
+Cluster speichern. Daraufhin speichert es die Zustände und Beziehungen. Die Darstellungsebene (View) visualisiert Daten aus dem Modell
+und reagiert auf die Controller Events.
+Die Steuerungsebene(Controller) vermittelt zwischen Nutzer und System und verarbeitet Events.
+Die Anwendung soll Zettel aus dem Zettelstore abrufen und visuell als Cluster darstellen. Dabei soll eine klare Trennung zwischen
+Datenverarbeitung, Steuerung und Darstellung gewährleistet werden.
+Die Kriterien sind:Trennung von Verantwortlichkeiten, Wartbarkeit und Erweiterbarkeit, Unterstützung interaktiver,
+ereignisgesteuerter Benutzerinteraktionen, Testbarkeit einzelner Schichten (z. B. Logik ohne UI)
+MVC erfüllt die Anforderungen an lose Kopplung und Trennung von Verantwortlichkeiten besser, da Benutzerinteraktionen und Visualisierung
+unabhängig voneinander entwickelt und getestet werden können. Zudem verknüpft es unsere funktionalen und nicht-funktionale Anforderungen.
+Als alternative Architektur können wir SAO oder Pipes&Filters wählen, sie wurden aber verworfen, da der Schwerpunkt auf der Visualisierung
+liegt und nicht auf beispielsweise Datenströme wie Pipes&Filters.
+Konsequenzen: Drei logisch getrennte Module (Model, View, Controller) werden implementiert. Kommunikation zwischen Schichten erfolgt über
+klar definierte Schnittstellen und Ereignisse (Observer-/Event-Pattern).
+UI-Änderungen erfordern keine Änderungen an der Datenlogik.
+Testing einzelner Komponenten (z. B. Model-Tests ohne UI) wird vereinfacht.
