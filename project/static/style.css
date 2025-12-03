@@ -21,3 +21,51 @@ th, td {
 th {
     background: white;
 }
+
+.error-box {
+    background-color: #ffe6e6; /* helles Rot */
+    color: #cc0000;            /* dunkles Rot für Text */
+    border: 1px solid #cc0000;
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin: 15px 0;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+
+.back-link {
+    display: inline-block;
+    color: #000000;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+
+pre {
+    background: lightgray;
+    border: 1px solid gray;
+    padding: 15px;
+    overflow-x: auto; /* https://developer.mozilla.org/de/docs/Web/CSS/Reference/Properties/overflow-x */
+}
+
+form {
+    margin-bottom: 20px;
+    display: inline-block;
+
+}
+
+form input, form button{
+    padding: 6px;
+    font-size: 14px;
+    border: 1px solid slategray;
+    border-radius: 4px;
+
+}
+
+form button:hover {
+    background-color: gray;
+    cursor: pointer;
+}

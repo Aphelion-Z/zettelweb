@@ -7,11 +7,36 @@
 </head>
 <body>
     <h1>ZettelWeb</h1>
+    {% if error %} <!-- error page -->
+        <p class="error-box">Fehler: {{ error }}</p>
+    {% endif %}
+    <form method="get" action="/">
+    <input type="text" name="query" placeholder="Suche..." value="{{ query }}">
+    <button type="submit">Suchen</button>
+</form>
     <table>
-        <tr><th>ID</th><th>Titel</th></tr>
-        {% for z in zettel %}
-        <tr><td>{{ z.id }}</td><td>{{ z.title }}</td></tr>
-        {% endfor %}
-    </table>
+    <tr>
+        <th>
+            ID
+            <a href="{{ url_for('index', sort='id', dir='asc') }}">▲</a>
+            <a href="{{ url_for('index', sort='id', dir='desc') }}">▼</a>
+        </th>
+        <th>
+            Titel
+            <a href="{{ url_for('index', sort='title', dir='asc') }}">▲</a>
+            <a href="{{ url_for('index', sort='title', dir='desc') }}">▼</a>
+        </th>
+        <th> Tags </th>
+        <th> Verbunden mit </th>
+    </tr>
+    {% for z in zettel %}
+    <tr>
+        <td> <a href="/zettel/{{ z.id }}">{{ z.id }}</a> </td>
+        <td>{{ z.title }}</td>
+        <td>{{ z.tags | join(', ') }}</td>
+        <td>{{ z.verbunden if z.verbunden else '-' }}</td>
+    </tr>
+    {% endfor %}
+</table>
 </body>
 </html>

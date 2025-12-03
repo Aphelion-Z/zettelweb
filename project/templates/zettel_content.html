@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>ZettelWeb</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <h1>Zettel: {{ id }}</h1>
+    <h2>Inhalt</h2>
+    <pre>{{ content }}</pre> <!-- https://developer.mozilla.org/de/docs/Web/HTML/Reference/Elements/pre -->
+    <br>
+    <h2>Metadaten</h2>
+    <pre>{{ meta }}</pre>
+    <br>
+    <a href="/" class="back-link"> Zurück zur Startseite </a>
+</body>
+
+</html>
