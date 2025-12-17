@@ -39,11 +39,11 @@ const CONFIG = {
 
     // Force-Simulation
     force: {
-        charge: -400,           // Abstossung zwischen Knoten
-        linkDistance: 120,      // Idealer Abstand zwischen verbundenen Knoten
-        linkStrength: 0.3,      // Staerke der Verbindungs-Kraefte
-        centerStrength: 0.05,   // Zentrierung
-        collisionRadius: 30     // Kollisions-Radius
+        charge: -150,           // Abstossung zwischen Knoten (reduziert fuer kompakteres Layout)
+        linkDistance: 60,       // Idealer Abstand zwischen verbundenen Knoten
+        linkStrength: 0.5,      // Staerke der Verbindungs-Kraefte
+        centerStrength: 0.1,    // Zentrierung (staerker fuer kompakteres Layout)
+        collisionRadius: 26     // Kollisions-Radius (knapp ueber node.radius)
     },
 
     // Zoom
