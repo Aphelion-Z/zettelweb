@@ -554,7 +554,7 @@ function dragStarted(event) {
     state.draggedNode = event.subject;
     state.wasDragging = false;  // Noch nicht wirklich gedraggt
     state.simulation.alphaTarget(0.3).restart();
-    state.canvas.style.cursor = 'grabbing';
+    state.canvas.style.cursor = 'move';
 
     // Knoten fixieren
     event.subject.fx = event.subject.x;
@@ -585,7 +585,7 @@ function dragEnded(event) {
     if (!event.subject) return;
 
     state.simulation.alphaTarget(0);
-    state.canvas.style.cursor = 'grab';
+    state.canvas.style.cursor = 'default';
 
     // Position bleibt fixiert und wird gespeichert
     savePosition(event.subject);
@@ -627,7 +627,7 @@ function handleMouseMove(event) {
         } else {
             hideTooltip();
             if (!state.draggedNode) {
-                state.canvas.style.cursor = 'grab';
+                state.canvas.style.cursor = 'default';
             }
         }
     }
