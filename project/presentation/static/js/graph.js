@@ -82,6 +82,7 @@ const state = {
     hoveredNode: null,
     selectedNode: null,
     draggedNode: null,
+    wasDragging: false,  // Verhindert Click nach Drag
 
     // Filter
     searchQuery: '',
@@ -476,17 +477,32 @@ function matchesSearchQuery(node) {
 function setupEventListeners() {
     const canvas = state.canvas;
 
-    // D3 Zoom
-    const zoom = d3.zoom()
+    // D3 Zoom - nur bei leerem Bereich, nicht auf Knoten
+    state.zoomBehavior = d3.zoom()
         .scaleExtent([CONFIG.zoom.min, CONFIG.zoom.max])
+        .filter(function(event) {
+            // Zoom nur wenn kein Knoten unter dem Cursor
+            const pos = getMousePositionFromEvent(event);
+            const node = findNodeAtPosition(pos.x, pos.y);
+            // Bei Wheel-Event immer zoomen, bei anderen Events nur wenn kein Knoten
+            return event.type === 'wheel' || !node;
+        })
         .on('zoom', handleZoom);
 
-    d3.select(canvas).call(zoom);
+    d3.select(canvas).call(state.zoomBehavior);
 
-    // Mouse Events
+    // D3 Drag fuer Knoten
+    state.dragBehavior = d3.drag()
+        .container(canvas)
+        .subject(dragSubject)
+        .on('start', dragStarted)
+        .on('drag', dragged)
+        .on('end', dragEnded);
+
+    d3.select(canvas).call(state.dragBehavior);
+
+    // Mouse Events (fuer Hover und Click)
     canvas.addEventListener('mousemove', handleMouseMove);
-    canvas.addEventListener('mousedown', handleMouseDown);
-    canvas.addEventListener('mouseup', handleMouseUp);
     canvas.addEventListener('click', handleClick);
 
     // Window Events
@@ -506,6 +522,78 @@ function setupEventListeners() {
 
 
 /**
+ * Hilfsfunktion: Mouse-Position aus Event (fuer D3 filter)
+ */
+function getMousePositionFromEvent(event) {
+    const rect = state.canvas.getBoundingClientRect();
+    const x = (event.clientX || event.sourceEvent?.clientX || 0) - rect.left;
+    const y = (event.clientY || event.sourceEvent?.clientY || 0) - rect.top;
+    return {
+        x: (x - state.transform.x) / state.transform.k,
+        y: (y - state.transform.y) / state.transform.k
+    };
+}
+
+
+/**
+ * D3 Drag: Subject bestimmen (welcher Knoten wird gezogen?)
+ */
+function dragSubject(event) {
+    const pos = getMousePositionFromEvent(event);
+    const node = findNodeAtPosition(pos.x, pos.y);
+    return node;
+}
+
+
+/**
+ * D3 Drag: Start
+ */
+function dragStarted(event) {
+    if (!event.subject) return;
+
+    state.draggedNode = event.subject;
+    state.wasDragging = false;  // Noch nicht wirklich gedraggt
+    state.simulation.alphaTarget(0.3).restart();
+    state.canvas.style.cursor = 'grabbing';
+
+    // Knoten fixieren
+    event.subject.fx = event.subject.x;
+    event.subject.fy = event.subject.y;
+}
+
+
+/**
+ * D3 Drag: Waehrend des Ziehens
+ */
+function dragged(event) {
+    if (!event.subject) return;
+
+    state.wasDragging = true;  // Jetzt wird wirklich gedraggt
+
+    // Position aus Event berechnen
+    event.subject.fx = (event.sourceEvent.offsetX - state.transform.x) / state.transform.k;
+    event.subject.fy = (event.sourceEvent.offsetY - state.transform.y) / state.transform.k;
+
+    state.simulation.alpha(0.3).restart();
+}
+
+
+/**
+ * D3 Drag: Ende
+ */
+function dragEnded(event) {
+    if (!event.subject) return;
+
+    state.simulation.alphaTarget(0);
+    state.canvas.style.cursor = 'grab';
+
+    // Position bleibt fixiert und wird gespeichert
+    savePosition(event.subject);
+    state.draggedNode = null;
+}
+
+
+/**
  * Zoom-Handler.
  */
 function handleZoom(event) {
@@ -519,7 +607,7 @@ function handleZoom(event) {
 
 
 /**
- * Mouse Move Handler.
+ * Mouse Move Handler (nur fuer Hover/Tooltip).
  */
 function handleMouseMove(event) {
     const pos = getMousePosition(event);
@@ -533,52 +621,15 @@ function handleMouseMove(event) {
         // Tooltip aktualisieren
         if (node) {
             showTooltip(node.title || node.id, event.clientX, event.clientY);
-            state.canvas.style.cursor = 'pointer';
+            if (!state.draggedNode) {
+                state.canvas.style.cursor = 'pointer';
+            }
         } else {
             hideTooltip();
-            state.canvas.style.cursor = state.draggedNode ? 'grabbing' : 'grab';
+            if (!state.draggedNode) {
+                state.canvas.style.cursor = 'grab';
+            }
         }
-    }
-
-    // Drag
-    if (state.draggedNode) {
-        state.draggedNode.fx = pos.x;
-        state.draggedNode.fy = pos.y;
-        state.simulation.alpha(0.3).restart();
-    }
-}
-
-
-/**
- * Mouse Down Handler.
- */
-function handleMouseDown(event) {
-    const pos = getMousePosition(event);
-    const node = findNodeAtPosition(pos.x, pos.y);
-
-    if (node) {
-        state.draggedNode = node;
-        state.simulation.alphaTarget(0.3).restart();
-        state.canvas.style.cursor = 'grabbing';
-    }
-}
-
-
-/**
- * Mouse Up Handler.
- */
-function handleMouseUp(event) {
-    if (state.draggedNode) {
-        // Position als fixiert markieren
-        state.draggedNode.fx = state.draggedNode.x;
-        state.draggedNode.fy = state.draggedNode.y;
-
-        // Position speichern
-        savePosition(state.draggedNode);
-
-        state.draggedNode = null;
-        state.simulation.alphaTarget(0);
-        state.canvas.style.cursor = 'grab';
     }
 }
 
@@ -588,7 +639,10 @@ function handleMouseUp(event) {
  */
 function handleClick(event) {
     // Nur wenn kein Drag stattgefunden hat
-    if (state.draggedNode) return;
+    if (state.wasDragging) {
+        state.wasDragging = false;
+        return;
+    }
 
     const pos = getMousePosition(event);
     const node = findNodeAtPosition(pos.x, pos.y);
