@@ -109,21 +109,14 @@ def lade_tags():
 
 def lade_links():
     """
-    Laedt und parsed die Verbindungen zwischen Zetteln.
+    Laedt die Verbindungen zwischen Zetteln.
+
+    Parst die Links aus dem Zettel-Inhalt (ZettelMarkup: [[Text|ID]]).
 
     Returns:
         dict: Dictionary mit Zettel-ID als Key und Liste von verbundenen IDs
     """
-    rohdaten = zettelstore_repo.hole_links_roh()
-
-    links = {}
-    for zeile in rohdaten.strip().split('\n'):
-        teile = zeile.split()
-        if teile:
-            zettel_id = teile[0]
-            verbunden = teile[1:]
-            links[zettel_id] = verbunden
-    return links
+    return zettelstore_repo.baue_link_map()
 
 
 def reichere_zettel_an(zettel, tags, links):
