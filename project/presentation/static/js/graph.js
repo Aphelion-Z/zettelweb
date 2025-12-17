@@ -19,7 +19,9 @@
 const CONFIG = {
     // Knoten-Darstellung
     node: {
-        radius: 24,
+        minRadius: 18,          // Minimaler Radius (0 Verbindungen)
+        maxRadius: 40,          // Maximaler Radius (viele Verbindungen)
+        radiusPerLink: 3,       // Zusaetzlicher Radius pro Verbindung
         color: '#3498db',
         highlightColor: '#2980b9',
         dimmedOpacity: 0.2,
@@ -301,7 +303,7 @@ function startSimulation() {
         .force('center', d3.forceCenter(state.width / 2, state.height / 2)
             .strength(CONFIG.force.centerStrength))
         .force('collision', d3.forceCollide()
-            .radius(CONFIG.force.collisionRadius))
+            .radius(d => getNodeRadius(d) + 2))  // Dynamisch + kleiner Abstand
         .on('tick', render);
 
     // Links aktualisieren
@@ -392,6 +394,9 @@ function drawNodes() {
         const isConnectedToHovered = state.hoveredNode && isConnected(node, state.hoveredNode);
         const matchesSearch = matchesSearchQuery(node);
 
+        // Dynamischer Radius basierend auf Verbindungsanzahl
+        const radius = getNodeRadius(node);
+
         // Dimming bei Hover oder Filter
         let alpha = 1;
         if (state.hoveredNode && !isHovered && !isConnectedToHovered) {
@@ -405,7 +410,7 @@ function drawNodes() {
 
         // Kreis zeichnen
         ctx.beginPath();
-        ctx.arc(node.x, node.y, CONFIG.node.radius, 0, Math.PI * 2);
+        ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
 
         // Fuellfarbe
         if (isHovered) {
@@ -428,8 +433,8 @@ function drawNodes() {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
 
-        // Text kuerzen wenn zu lang
-        const maxWidth = CONFIG.node.radius * 1.6;
+        // Text kuerzen wenn zu lang (basierend auf dynamischem Radius)
+        const maxWidth = radius * 1.6;
         let title = node.title || node.id;
         if (ctx.measureText(title).width > maxWidth) {
             while (ctx.measureText(title + '...').width > maxWidth && title.length > 0) {
@@ -452,6 +457,26 @@ function isConnected(nodeA, nodeB) {
         (link.source.id === nodeA.id && link.target.id === nodeB.id) ||
         (link.source.id === nodeB.id && link.target.id === nodeA.id)
     );
+}
+
+
+/**
+ * Zaehlt die Anzahl der Verbindungen eines Knotens.
+ */
+function countLinks(node) {
+    return state.links.filter(link =>
+        link.source.id === node.id || link.target.id === node.id
+    ).length;
+}
+
+
+/**
+ * Berechnet den Radius eines Knotens basierend auf Verbindungsanzahl.
+ */
+function getNodeRadius(node) {
+    const linkCount = countLinks(node);
+    const radius = CONFIG.node.minRadius + (linkCount * CONFIG.node.radiusPerLink);
+    return Math.min(radius, CONFIG.node.maxRadius);
 }
 
 
@@ -876,10 +901,9 @@ function getMousePosition(event) {
  * Knoten an Position finden.
  */
 function findNodeAtPosition(x, y) {
-    const radius = CONFIG.node.radius;
-
     for (let i = state.nodes.length - 1; i >= 0; i--) {
         const node = state.nodes[i];
+        const radius = getNodeRadius(node);  // Dynamischer Radius
         const dx = x - node.x;
         const dy = y - node.y;
 
