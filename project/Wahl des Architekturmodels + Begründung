@@ -212,3 +212,42 @@ Die 3-Schichten-Architektur ist die optimale Wahl fuer ZettelWeb, da sie:
 Die urspruenglich gewaehlte MVC-Architektur wurde verworfen, da HTTP/1
 keine Event-basierte Kommunikation zwischen Model und View unterstuetzt,
 die fuer echtes MVC zwingend erforderlich ist.
+
+
+9. Erweiterung: Graph-Visualisierung
+------------------------------------
+
+Bei der geplanten interaktiven Graph-Visualisierung wird die Architektur
+um eine Client-Komponente erweitert:
+
+Aktuell (Server-Side Rendering):
+- Server: Praesentation + Logik + Daten
+- Client: Nur Anzeige (HTML)
+
+Mit Graph-Visualisierung (Client-Side Rendering):
+- Server: API + Daten (liefert JSON)
+- Client: Praesentation + Visualisierungslogik (JavaScript/D3.js)
+
++--------------------------------------------------+
+|                    CLIENT                        |
+|  +--------------------------------------------+  |
+|  |  Praesentation: HTML/CSS Canvas            |  |
+|  +--------------------------------------------+  |
+|  |  Client-Logik: Graph-Layout, Drag & Drop,  |  |
+|  |  Zoom/Pan, Hover-Effekte (JavaScript)      |  |
+|  +--------------------------------------------+  |
++--------------------------------------------------+
+                        ^
+                        | REST API (JSON)
+                        v
++--------------------------------------------------+
+|                    SERVER                        |
+|  +--------------------------------------------+  |
+|  |  Logik: API-Endpunkte, Datenaufbereitung   |  |
+|  +--------------------------------------------+  |
+|  |  Daten: Zettelstore-API, SQLite            |  |
+|  +--------------------------------------------+  |
++--------------------------------------------------+
+
+Die 3-Schichten-Architektur bleibt serverseitig bestehen.
+Die Client-Logik ist eine Erweiterung fuer interaktive Visualisierung.
